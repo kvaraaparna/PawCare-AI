@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pet & Dog Profile – PawCare AI</title>
+
+    <!-- Font Awesome 6.5.2 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <!-- Unified PawCare AI Stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v=3.3">
+</head>
+
+<body class="profile-body">
+
+<!-- ================= NAVBAR ================= -->
+<header class="navbar">
+    <div class="logo-area">
+        <a href="/" class="logo-link">
+            <div class="paw-logo">
+                <i class="fa-solid fa-paw"></i>
+            </div>
+            <div>
+                <h2>PawCare <span>AI</span></h2>
+                <p data-i18n="brand.tagline">Healthy Pets, Happier Lives</p>
+            </div>
+        </a>
+
+        <div class="logo-divider"></div>
+        <a href="/profile" class="nav-profile-pill-left active" title="Current Page: Canine & Owner Profile">
+            <i class="fa-solid fa-circle-user"></i>
+            <span>View Profile</span>
+        </a>
+    </div>
+
+    <nav>
+        <a href="/" data-i18n="nav.home">Home</a>
+        <a href="/detect" data-i18n="nav.detect">Detect Disease</a>
+        <a href="/#how-it-works" data-i18n="nav.how_it_works">How It Works</a>
+        <a href="/#contact" data-i18n="nav.contact">Contact</a>
+        <a href="community.html">Community</a>
+    </nav>
+
+    <div class="navbar-right"></div>
+</header>
+
+<!-- ================= PROFILE HERO HEADER ================= -->
+<section class="profile-header-banner">
+    <div class="profile-header-content-wrapper">
+        <div class="profile-header-content">
+            <div class="profile-pill-badge">
+                <i class="fa-solid fa-shield-dog"></i>
+                <span>Pet & Canine Health Record</span>
+            </div>
+            <h1>Pet Profile & Clinical History</h1>
+            <p>Keep your pet owner information, canine characteristics, and health background up-to-date in our secure database.</p>
+        </div>
+        <div class="profile-header-logout-box">
+            <a href="{{ url_for('logout') }}" class="btn-profile-hero-logout" title="Sign out of account">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                <span>Logout</span>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ================= MAIN PROFILE FORM ================= -->
+<main class="profile-main-container">
+    <div class="profile-form-wrapper">
+
+        <!-- Flash messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-messages-container">
+                    {% for category, message in messages %}
+                        <div class="flash-alert flash-{{ category }}">
+                            <i class="fa-solid {% if category == 'success' %}fa-circle-check{% elif category == 'danger' %}fa-circle-exclamation{% elif category == 'warning' %}fa-triangle-exclamation{% else %}fa-circle-info{% endif %}"></i>
+                            <span>{{ message }}</span>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <form action="{{ url_for('profile') }}" method="POST" enctype="multipart/form-data" class="profile-main-form" id="profileForm">
+
+            <!-- ================= SECTION 1: OWNER INFORMATION ================= -->
+            <div class="profile-section-card">
+                <div class="profile-section-title">
+                    <div class="sec-icon-box">
+                        <i class="fa-solid fa-user-check"></i>
+                    </div>
+                    <div>
+                        <h2>Owner Information</h2>
+                        <p>Personal and contact details linked to your PawCare account.</p>
+                    </div>
+                </div>
+
+                <!-- Account info -->
+                <div class="owner-account-bar">
+                    <span><i class="fa-solid fa-shield-halved"></i> Signed in as <strong>{{ user.email }}</strong></span>
+                </div>
+
+                <div class="profile-form-grid">
+                    <div class="form-group">
+                        <label for="ownerFullName">Full Name <span class="req-star">*</span></label>
+                        <div class="input-with-icon">
+                            <i class="fa-solid fa-user"></i>
+                            <input type="text" id="ownerFullName" name="full_name" value="{{ user.full_name }}" required placeholder="e.g. Dr. Alex Rivera">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ownerEmail">Email Address</label>
+                        <div class="input-with-icon">
+                            <i class="fa-solid fa-envelope"></i>
+                            <input type="email" id="ownerEmail" name="email" value="{{ user.email }}" readonly class="readonly-input" title="Email is automatically linked to your authenticated account">
+                        </div>
+                        <small class="field-hint"><i class="fa-solid fa-lock"></i> Automatically linked to your logged-in account.</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ownerPhone">Phone Number <span class="opt-label">(Optional)</span></label>
+                        <div class="input-with-icon">
+                            <i class="fa-solid fa-phone"></i>
+                            <input type="tel" id="ownerPhone" name="phone" value="{{ user.phone or '' }}" placeholder="+1-555-0199">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ownerCity">City <span class="opt-label">(Optional)</span></label>
+                        <div class="input-with-icon">
+                            <i class="fa-solid fa-location-dot"></i>
+                            <input type="text" id="ownerCity" name="city" value="{{ user.city or '' }}" placeholder="e.g. Seattle, WA">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================= SECTION 2: DOG INFORMATION ================= -->
+            <div class="profile-section-card">
+                <div class="profile-section-title">
+                    <div class="sec-icon-box">
+                        <i class="fa-solid fa-dog"></i>
+                    </div>
+                    <div>
+                        <h2>Dog Information</h2>
+                        <p>Specific details identifying your canine companion.</p>
+                    </div>
+                </div>
+
+                <!-- Dog Photo Upload Widget -->
+                <div class="dog-photo-row">
+                    <div class="dog-avatar-preview-box">
+                        {% if dog and dog.photo_path %}
+                            <img src="/{{ dog.photo_path }}" alt="{{ dog.dog_name }}" class="dog-avatar-preview" id="dogAvatarImg">
+                            <div class="dog-avatar-placeholder hidden" id="dogAvatarPlaceholder">
+                                <i class="fa-solid fa-shield-dog"></i>
+                            </div>
+                        {% else %}
+                            <img src="" alt="Preview" class="dog-avatar-preview hidden" id="dogAvatarImg">
+                            <div class="dog-avatar-placeholder" id="dogAvatarPlaceholder">
+                                <i class="fa-solid fa-shield-dog"></i>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="dog-photo-controls">
+                        <label class="photo-upload-btn" for="dogPhotoInput">
+                            <i class="fa-solid fa-camera"></i>
+                            <span>Upload Dog Photo <small class="opt-label">(Optional)</small></span>
+                        </label>
+                        <input type="file" id="dogPhotoInput" name="dog_photo" accept="image/jpeg,image/png,image/webp" style="display:none;" onchange="previewDogPhoto(this)">
+                        <p class="photo-help-text">Supported formats: JPG, PNG, WEBP. Maximum file size: 10MB.</p>
+                        <span id="selectedFileName" class="selected-file-name"></span>
+                    </div>
+                </div>
+
+                <div class="profile-form-grid">
+                    <div class="form-group">
+                        <label for="dogName">Dog Name <span class="req-star">*</span></label>
+                        <div class="input-with-icon">
+                            <i class="fa-solid fa-tag"></i>
+                            <input type="text" id="dogName" name="dog_name" value="{{ dog.dog_name if dog else '' }}" required placeholder="e.g. Buddy">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="dogBreed">Breed <span class="req-star">*</span></label>
+                        <div class="input-with-icon">
+                            <i class="fa-solid fa-dna"></i>
+                            <input type="text" id="dogBreed" name="breed" value="{{ dog.breed if dog else '' }}" list="dogBreedList" required placeholder="e.g. Golden Retriever">
+                        </div>
+                        <datalist id="dogBreedList">
+                            <option value="Golden Retriever">
+                            <option value="German Shepherd">
+                            <option value="Labrador Retriever">
+                            <option value="French Bulldog">
+                            <option value="Beagle">
+                            <option value="Poodle">
+                            <option value="Bulldog">
+                            <option value="Rottweiler">
+                            <option value="Siberian Husky">
+                            <option value="Dachshund">
+                            <option value="Great Dane">
+                            <option value="Doberman Pinscher">
+                            <option value="Shih Tzu">
+                            <option value="Yorkshire Terrier">
+                            <option value="Chihuahua">
+                            <option value="Border Collie">
+                            <option value="Pug">
+                            <option value="Pomeranian">
+                            <option value="Boxer">
+                            <option value="Cocker Spaniel">
+                            <option value="Maltese">
+                            <option value="Mixed Breed">
+                        </datalist>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="dogAge">Age <span class="req-star">*</span></label>
+                        <div class="input-with-icon">
+                            <i class="fa-solid fa-clock"></i>
+                            <input type="text" id="dogAge" name="age" value="{{ dog.age if dog else '' }}" required placeholder="e.g. 3 years, 8 months">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="dogGender">Gender <span class="req-star">*</span></label>
+                        <div class="input-with-icon">
+                            <i class="fa-solid fa-venus-mars"></i>
+                            <select id="dogGender" name="gender" required class="select-dropdown">
+                                <option value="" disabled {% if not dog or not dog.gender %}selected{% endif %}>Select Gender</option>
+                                <option value="Male" {% if dog and dog.gender == 'Male' %}selected{% endif %}>Male</option>
+                                <option value="Female" {% if dog and dog.gender == 'Female' %}selected{% endif %}>Female</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="dogWeight">Weight <span class="opt-label">(Optional)</span></label>
+                        <div class="input-with-unit">
+                            <i class="fa-solid fa-weight-scale"></i>
+                            <input type="number" id="dogWeight" name="weight" step="0.1" min="0" value="{{ dog.weight if dog and dog.weight is not none else '' }}" placeholder="e.g. 31.5">
+                            <span class="unit-badge">kg</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================= SECTION 3: HEALTH INFORMATION ================= -->
+            <div class="profile-section-card">
+                <div class="profile-section-title">
+                    <div class="sec-icon-box">
+                        <i class="fa-solid fa-notes-medical"></i>
+                    </div>
+                    <div>
+                        <div class="title-with-badge">
+                            <h2>Health Information</h2>
+                            <span class="all-opt-badge">All Optional</span>
+                        </div>
+                        <p>Dermatological observations and medical background.</p>
+                    </div>
+                </div>
+
+                <!-- Prominent Health Note Banner -->
+                <div class="health-callout-banner">
+                    <div class="callout-icon">
+                        <i class="fa-solid fa-circle-info"></i>
+                    </div>
+                    <div class="callout-text">
+                        <p class="callout-primary">
+                            "Optional: You can provide health information now, or add it later if your dog develops any symptoms."
+                        </p>
+                        <p class="callout-secondary">
+                            If the dog is healthy, the owner can leave the health section completely blank.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="health-inputs-stack">
+                    <div class="form-group">
+                        <label for="prevSkinProblems">
+                            <i class="fa-solid fa-clock-rotate-left"></i> Previous skin problems? <span class="opt-label">(Optional)</span>
+                        </label>
+                        <textarea id="prevSkinProblems" name="previous_skin_problems" rows="3" placeholder="e.g. Experienced seasonal itchiness last summer; previous yeast infection treated with medicated shampoo.">{{ health.previous_skin_problems if health and health.previous_skin_problems else '' }}</textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="currSymptoms">
+                            <i class="fa-solid fa-triangle-exclamation"></i> Current symptoms <span class="opt-label">(Optional)</span>
+                        </label>
+                        <textarea id="currSymptoms" name="current_symptoms" rows="3" placeholder="e.g. Frequent scratching around the collar area; red patch with mild flaking observed on the left flank.">{{ health.current_symptoms if health and health.current_symptoms else '' }}</textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="otherHealthNotes">
+                            <i class="fa-solid fa-stethoscope"></i> Other health notes <span class="opt-label">(Optional)</span>
+                        </label>
+                        <textarea id="otherHealthNotes" name="health_notes" rows="3" placeholder="e.g. All vaccinations current; receives monthly flea and tick preventative; fed poultry-free diet.">{{ health.health_notes if health and health.health_notes else '' }}</textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================= SUBMIT ACTION BUTTONS ================= -->
+            <div class="profile-actions-bar">
+                <button type="submit" class="btn-save-profile" id="saveProfileBtn">
+                    <i class="fa-solid fa-floppy-disk"></i>
+                    <span>Save Profile & Health Data</span>
+                </button>
+                <a href="/detect" class="btn-detect-link">
+                    <i class="fa-solid fa-stethoscope"></i>
+                    <span>Go to Disease Detection</span>
+                </a>
+            </div>
+
+        </form>
+    </div>
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+    <div class="footer-bottom">
+        <p>&copy; 2026 PawCare AI. All rights reserved. Powered by PyTorch & PostgreSQL.</p>
+    </div>
+</footer>
+
+<script>
+function previewDogPhoto(input) {
+    if (input.files && input.files[0]) {
+        const file = input.files[0];
+        const reader = new FileReader();
+        const imgElement = document.getElementById("dogAvatarImg");
+        const placeholder = document.getElementById("dogAvatarPlaceholder");
+        const nameLabel = document.getElementById("selectedFileName");
+
+        reader.onload = function(e) {
+            imgElement.src = e.target.result;
+            imgElement.classList.remove("hidden");
+            if (placeholder) {
+                placeholder.classList.add("hidden");
+            }
+        };
+        reader.readAsDataURL(file);
+        if (nameLabel) {
+            nameLabel.textContent = file.name;
+        }
+    }
+}
+</script>
+<script src="{{ url_for('static', filename='js/translations.js') }}"></script>
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

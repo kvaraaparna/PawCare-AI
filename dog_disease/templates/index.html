@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PawCare AI – Dog Skin Disease Detection</title>
+
+    <!-- Font Awesome 6.5.2 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <!-- Unified PawCare AI Stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v=4.2">
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+<header class="navbar">
+    <div class="logo-area">
+        <a href="/" class="logo-link">
+            <div class="paw-logo">
+                <i class="fa-solid fa-paw"></i>
+            </div>
+            <div>
+                <h2>PawCare <span>AI</span></h2>
+                <p data-i18n="brand.tagline">Healthy Pets, Happier Lives</p>
+            </div>
+        </a>
+
+        {% if current_user %}
+        <div class="logo-divider"></div>
+        <a href="/profile" class="nav-profile-pill-left" title="View Canine & Owner Profile">
+            <i class="fa-solid fa-circle-user"></i>
+            <span>View Profile</span>
+        </a>
+        {% endif %}
+    </div>
+
+    <nav>
+        <a href="/" class="active" data-i18n="nav.home">Home</a>
+        <a href="/detect" data-i18n="nav.detect">Detect Disease</a>
+        <a href="#how-it-works" data-i18n="nav.how_it_works">How It Works</a>
+        <a href="#contact" data-i18n="nav.contact">Contact</a>
+        <a href="/#community" data-i18n="nav.community">Community</a>
+    </nav>
+
+    <div class="navbar-right">
+        {% if not current_user %}
+        <!-- Language Dropdown (Only visible on landing page before login) -->
+        <div class="lang-dropdown-wrapper" id="langDropdownWrapper">
+            <button type="button" class="lang-dropdown-btn" id="langDropdownBtn" aria-haspopup="true" aria-expanded="false" aria-label="Select Language">
+                <i class="fa-solid fa-globe lang-globe-icon"></i>
+                <span class="lang-btn-text" data-i18n="nav.language">Language</span>
+                <i class="fa-solid fa-chevron-down lang-chevron"></i>
+            </button>
+            <div class="lang-dropdown-menu" id="langDropdownMenu" role="menu">
+                <button type="button" class="lang-option-btn active" data-lang="en" role="menuitem">
+                    <span class="lang-option-text">English</span>
+                    <i class="fa-solid fa-check lang-check"></i>
+                </button>
+                <button type="button" class="lang-option-btn" data-lang="te" role="menuitem">
+                    <span class="lang-option-text">తెలుగు (Telugu)</span>
+                    <i class="fa-solid fa-check lang-check"></i>
+                </button>
+                <button type="button" class="lang-option-btn" data-lang="hi" role="menuitem">
+                    <span class="lang-option-text">हिन्दी (Hindi)</span>
+                    <i class="fa-solid fa-check lang-check"></i>
+                </button>
+            </div>
+        </div>
+
+        <a href="/login" class="nav-login-btn" title="Sign In to PawCare AI">
+            <i class="fa-solid fa-arrow-right-to-bracket"></i>
+            <span>Login</span>
+        </a>
+        {% endif %}
+    </div>
+</header>
+
+<!-- ================= HERO SECTION ================= -->
+<section class="hero hero-banner-only">
+    <!-- DOG HERO VIDEO -->
+    <div class="hero-image">
+        <video autoplay loop muted playsinline preload="auto" class="hero-video">
+            <source src="{{ url_for('static', filename='videos/dog-hero.mp4') }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+</section>
+
+<!-- ================= FEATURES SECTION ================= -->
+<section class="features" id="about">
+    <div class="feature-card blue">
+        <div class="feature-icon">
+            <i class="fa-solid fa-bolt"></i>
+        </div>
+        <div>
+            <h3 data-i18n="features.card1_title">Instant AI Analysis</h3>
+            <p data-i18n="features.card1_desc">State-of-the-art ResNet-18 deep learning model processes photographs within milliseconds.</p>
+        </div>
+    </div>
+
+    <div class="feature-card green">
+        <div class="feature-icon">
+            <i class="fa-solid fa-shield"></i>
+        </div>
+        <div>
+            <h3 data-i18n="features.card2_title">Explainable AI (Grad-CAM)</h3>
+            <p data-i18n="features.card2_desc">Transparent heatmaps reveal precisely which visual regions contributed to the model's prediction.</p>
+        </div>
+    </div>
+
+    <div class="feature-card pink">
+        <div class="feature-icon">
+            <i class="fa-solid fa-shield-dog"></i>
+        </div>
+        <div>
+            <h3 data-i18n="features.card3_title">Canine Presence Validator</h3>
+            <p data-i18n="features.card3_desc">Smart gatekeeper ensures only legitimate dog photographs and skin close-ups are evaluated.</p>
+        </div>
+    </div>
+
+    <div class="feature-card purple">
+        <div class="feature-icon">
+            <i class="fa-solid fa-file-pdf"></i>
+        </div>
+        <div>
+            <h3 data-i18n="features.card4_title">PDF Health Reports</h3>
+            <p data-i18n="features.card4_desc">Downloadable clinical screening summaries ready to share with your licensed veterinary doctor.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ================= HOW IT WORKS ================= -->
+<section class="about" id="how-it-works">
+    <div class="section-title">
+        <h2 data-i18n="steps.title">How PawCare AI Works</h2>
+        <p data-i18n="steps.badge">Easy 4-Step Process</p>
+    </div>
+
+    <div class="steps">
+        <div class="step">
+            <div class="step-icon">
+                <i class="fa-solid fa-image"></i>
+            </div>
+            <h3 data-i18n="steps.step1_title">Upload Photograph</h3>
+            <p data-i18n="steps.step1_desc">Take or select a clear photograph of your dog's affected skin area.</p>
+        </div>
+
+        <div class="arrow">→</div>
+
+        <div class="step">
+            <div class="step-icon">
+                <i class="fa-solid fa-shield-dog"></i>
+            </div>
+            <h3 data-i18n="steps.step2_title">Canine Verification</h3>
+            <p data-i18n="steps.step2_desc">ImageNet validator verifies that the image depicts a canine or dermatological tissue.</p>
+        </div>
+
+        <div class="arrow">→</div>
+
+        <div class="step">
+            <div class="step-icon">
+                <i class="fa-solid fa-brain"></i>
+            </div>
+            <h3 data-i18n="steps.step3_title">ResNet-18 Inference</h3>
+            <p data-i18n="steps.step3_desc">Deep neural network evaluates visual patterns across 4 dermatological categories.</p>
+        </div>
+
+        <div class="arrow">→</div>
+
+        <div class="step">
+            <div class="step-icon">
+                <i class="fa-solid fa-stethoscope"></i>
+            </div>
+            <h3 data-i18n="steps.step4_title">Results & Advice</h3>
+            <p data-i18n="steps.step4_desc">Receive instant probabilities, Grad-CAM explanations, and veterinary guidance.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer id="contact">
+    <div class="footer-logo">
+        <i class="fa-solid fa-paw"></i>
+        PawCare AI
+    </div>
+
+    <p data-i18n="footer.tagline">
+        Dog Skin Disease Detection System. Powered by PyTorch ResNet-18 Transfer Learning.
+    </p>
+
+    <p class="copyright" data-i18n="footer.copyright">
+        © 2026 PawCare AI. All rights reserved.
+    </p>
+</footer>
+
+<!-- Scripts -->
+<script src="{{ url_for('static', filename='js/translations.js') }}?v=4.1"></script>
+<script src="{{ url_for('static', filename='js/script.js') }}?v=4.1"></script>
+</body>
+</html>

@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="community.css"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Community | PawCare AI</title>
+<link rel="stylesheet"
+        href="{{ url_for('static', filename='css/community.css') }}"/>
+    
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+
+<nav class="navbar">
+
+    <div class="nav-logo">
+        🐾 PawCare AI
+    </div>
+
+    <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/community" class="active">Community</a>
+        <a href="/community/my-posts">My Posts</a>
+
+        {% if session.get('user_id') %}
+            <a href="/logout">Logout</a>
+        {% else %}
+            <a href="/login">Login</a>
+        {% endif %}
+    </div>
+
+</nav>
+
+
+<!-- ================= MAIN ================= -->
+
+<main class="community-container">
+
+    <section class="community-header">
+
+        <div>
+            <h1>🐾 PawCare Community</h1>
+
+            <p>
+                Connect with other animal lovers, ask questions,
+                share experiences and learn together.
+            </p>
+        </div>
+
+        {% if session.get('user_id') %}
+
+        <a href="{{ url_for('community.create_community_post') }}"
+           class="create-post-btn">
+            + Create Post
+        </a>
+
+        {% else %}
+
+        <a href="{{ url_for('login') }}"
+           class="create-post-btn">
+            Login to Post
+        </a>
+
+        {% endif %}
+
+    </section>
+
+
+    <!-- ================= SEARCH ================= -->
+
+    <section class="search-section">
+
+        <form method="GET"
+              action="{{ url_for('community.community_home') }}">
+
+            <div class="search-box">
+
+                <input
+                    type="text"
+                    name="search"
+                    placeholder="Search community discussions..."
+                    value="{{ search_query or '' }}"
+                >
+
+                <button type="submit">
+                    🔍 Search
+                </button>
+
+            </div>
+
+        </form>
+
+    </section>
+
+
+    <!-- ================= CATEGORIES ================= -->
+
+    <section class="categories">
+
+        <a href="{{ url_for('community.community_home') }}"
+           class="category-btn
+           {% if not selected_category %}selected{% endif %}">
+            All
+        </a>
+
+        <a href="{{ url_for('community.community_home', category='General Animal Care') }}"
+           class="category-btn">
+            🐾 General Care
+        </a>
+
+        <a href="{{ url_for('community.community_home', category='Dog Health') }}"
+           class="category-btn">
+            🐶 Dog Health
+        </a>
+
+        <a href="{{ url_for('community.community_home', category='Cat Health') }}"
+           class="category-btn">
+            🐱 Cat Health
+        </a>
+
+        <a href="{{ url_for('community.community_home', category='Skin Problems') }}"
+           class="category-btn">
+            🩹 Skin Problems
+        </a>
+
+        <a href="{{ url_for('community.community_home', category='Eye Problems') }}"
+           class="category-btn">
+            👁️ Eye Problems
+        </a>
+
+        <a href="{{ url_for('community.community_home', category='Ear Problems') }}"
+           class="category-btn">
+            👂 Ear Problems
+        </a>
+
+        <a href="{{ url_for('community.community_home', category='Disease Discussion') }}"
+           class="category-btn">
+            🦠 Diseases
+        </a>
+
+    </section>
+
+
+    <!-- ================= POSTS ================= -->
+
+    <section class="posts-section">
+
+        {% if posts %}
+
+            {% for post in posts %}
+
+            <article class="post-card">
+
+                <div class="post-top">
+
+                    <div class="user-info">
+
+                        <div class="user-avatar">
+                            👤
+                        </div>
+
+                        <div>
+                            <strong>
+                                User {{ post.user_id }}
+                            </strong>
+
+                            <span>
+                                {{ post.created_at.strftime('%d %b %Y, %I:%M %p') }}
+                            </span>
+                        </div>
+
+                    </div>
+
+                    <span class="post-category">
+                        {{ post.category }}
+                    </span>
+
+                </div>
+
+
+                <div class="post-content">
+
+                    <h2>
+                        {{ post.title }}
+                    </h2>
+
+                    <p>
+                        {{ post.content[:300] }}
+
+                        {% if post.content|length > 300 %}
+                            ...
+                        {% endif %}
+                    </p>
+
+                </div>
+
+
+                <div class="post-footer">
+
+                    <span>
+                        💬 Comments
+                    </span>
+
+                    <a href="{{ url_for(
+                        'community.view_post',
+                        post_id=post.id
+                    ) }}">
+                        Read Discussion →
+                    </a>
+
+                </div>
+
+            </article>
+
+            {% endfor %}
+
+        {% else %}
+
+            <div class="empty-community">
+
+                <div class="empty-icon">
+                    🐾
+                </div>
+
+                <h2>No posts found</h2>
+
+                <p>
+                    Be the first person to start a discussion!
+                </p>
+
+                {% if session.get('user_id') %}
+
+                <a href="{{ url_for(
+                    'community.create_community_post'
+                ) }}">
+                    Create the First Post
+                </a>
+
+                {% endif %}
+
+            </div>
+
+        {% endif %}
+
+    </section>
+
+</main>
+
+
+<!-- Flash messages -->
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+
+    {% if messages %}
+
+    <div class="flash-container">
+
+        {% for category, message in messages %}
+
+        <div class="flash-message {{ category }}">
+
+            {{ message }}
+
+            <button onclick="this.parentElement.remove()">
+                ×
+            </button>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    {% endif %}
+
+{% endwith %}
+
+
+<script src="{{ url_for(
+    'static',
+    filename='js/community.js'
+) }}"></script>
+
+</body>
+</html>

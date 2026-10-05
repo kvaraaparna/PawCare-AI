@@ -1,0 +1,1848 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>PawCare Community</title>
+
+
+    <style>
+
+        /* =====================================================
+           RESET
+        ===================================================== */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+
+        body {
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background: #ffffff;
+
+            color: #303b36;
+
+            line-height: 1.6;
+        }
+
+
+        /* =====================================================
+           NAVBAR
+        ===================================================== */
+
+        .navbar {
+
+            width: 100%;
+
+            height: 76px;
+
+            background: #ffffff;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 0 7%;
+
+            border-bottom:
+                1px solid #eeeeee;
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 1000;
+        }
+
+
+        .logo {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            color: #26332d;
+
+            font-size: 21px;
+
+            font-weight: 700;
+
+            text-decoration: none;
+        }
+
+
+        .logo-icon {
+
+            color: #4b9b7d;
+
+            font-size: 24px;
+        }
+
+
+        .nav-links {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 30px;
+        }
+
+
+        .nav-links a {
+
+            text-decoration: none;
+
+            color: #4a514e;
+
+            font-size: 14px;
+
+            font-weight: 500;
+
+            transition: 0.25s;
+        }
+
+
+        .nav-links a:hover {
+
+            color: #4b9b7d;
+        }
+
+
+        .nav-links a.active {
+
+            color: #4b9b7d;
+
+            font-weight: 600;
+        }
+
+
+        /* =====================================================
+           MAIN
+        ===================================================== */
+
+        .container {
+
+            width: 86%;
+
+            max-width: 1100px;
+
+            margin: 55px auto 80px;
+        }
+
+
+        /* =====================================================
+           HEADER
+        ===================================================== */
+
+        .community-header {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 30px;
+
+            margin-bottom: 32px;
+        }
+
+
+        .community-header h1 {
+
+            color: #26332d;
+
+            font-size: 36px;
+
+            font-weight: 600;
+
+            margin-bottom: 8px;
+        }
+
+
+        .community-header p {
+
+            color: #747c78;
+
+            font-size: 15px;
+
+            max-width: 650px;
+        }
+
+
+        /* =====================================================
+           BUTTON
+        ===================================================== */
+
+        .create-btn {
+
+            border: none;
+
+            border-radius: 30px;
+
+            background: #4b9b7d;
+
+            color: #ffffff;
+
+            padding: 13px 22px;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+            white-space: nowrap;
+
+            transition: 0.25s;
+        }
+
+
+        .create-btn:hover {
+
+            background: #398568;
+
+            transform: translateY(-1px);
+
+            box-shadow:
+                0 7px 18px
+                rgba(75, 155, 125, 0.18);
+        }
+
+
+        /* =====================================================
+           DISEASE INFORMATION
+        ===================================================== */
+
+        .disease-info {
+
+            background: #f7faf8;
+
+            border:
+                1px solid #e4eee9;
+
+            border-radius: 18px;
+
+            padding: 24px 26px;
+
+            margin-bottom: 30px;
+        }
+
+
+        .disease-info h2 {
+
+            color: #2c3832;
+
+            font-size: 21px;
+
+            font-weight: 600;
+
+            margin-bottom: 6px;
+        }
+
+
+        .disease-info p {
+
+            color: #747c78;
+
+            font-size: 14px;
+
+            margin-bottom: 17px;
+        }
+
+
+        .disease-tags {
+
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 10px;
+        }
+
+
+        .disease-tag {
+
+            background: #ffffff;
+
+            border:
+                1px solid #dce9e3;
+
+            color: #4b806b;
+
+            padding: 8px 14px;
+
+            border-radius: 25px;
+
+            font-size: 13px;
+
+            font-weight: 600;
+        }
+
+
+        /* =====================================================
+           CREATE POST FORM
+        ===================================================== */
+
+        .post-form {
+
+            display: none;
+
+            background: #ffffff;
+
+            border:
+                1px solid #e3e9e5;
+
+            border-radius: 18px;
+
+            padding: 26px;
+
+            margin-bottom: 30px;
+
+            box-shadow:
+                0 8px 25px
+                rgba(40, 70, 55, 0.06);
+        }
+
+
+        .post-form.show {
+
+            display: block;
+        }
+
+
+        .post-form h2 {
+
+            color: #29362f;
+
+            font-size: 22px;
+
+            font-weight: 600;
+
+            margin-bottom: 20px;
+        }
+
+
+        .form-group {
+
+            margin-bottom: 17px;
+        }
+
+
+        .form-group label {
+
+            display: block;
+
+            color: #3b4741;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            margin-bottom: 7px;
+        }
+
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+
+            width: 100%;
+
+            padding: 12px 14px;
+
+            border:
+                1px solid #dce3df;
+
+            border-radius: 10px;
+
+            background: #ffffff;
+
+            color: #354039;
+
+            font-size: 14px;
+
+            outline: none;
+        }
+
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+
+            border-color: #4b9b7d;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(75, 155, 125, 0.08);
+        }
+
+
+        .form-group textarea {
+
+            min-height: 120px;
+
+            resize: vertical;
+        }
+
+
+        .form-buttons {
+
+            display: flex;
+
+            justify-content: flex-end;
+
+            gap: 10px;
+        }
+
+
+        .cancel-btn {
+
+            border:
+                1px solid #dce3df;
+
+            background: #ffffff;
+
+            color: #59625e;
+
+            border-radius: 25px;
+
+            padding: 11px 19px;
+
+            cursor: pointer;
+        }
+
+
+        /* =====================================================
+           DISCUSSIONS
+        ===================================================== */
+
+        .section-title {
+
+            color: #29362f;
+
+            font-size: 23px;
+
+            font-weight: 600;
+
+            margin-bottom: 18px;
+        }
+
+
+        .posts {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 18px;
+        }
+
+
+        .post-card {
+
+            background: #ffffff;
+
+            border:
+                1px solid #e6ebe8;
+
+            border-radius: 16px;
+
+            padding: 24px;
+
+            transition: 0.25s;
+        }
+
+
+        .post-card:hover {
+
+            border-color: #d3e3dc;
+
+            box-shadow:
+                0 8px 25px
+                rgba(45, 75, 60, 0.06);
+        }
+
+
+        /* =====================================================
+           POST HEADER
+        ===================================================== */
+
+        .post-top {
+
+            display: flex;
+
+            align-items: flex-start;
+
+            justify-content: space-between;
+
+            gap: 15px;
+
+            margin-bottom: 16px;
+        }
+
+
+        .user-info {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+        }
+
+
+        .avatar {
+
+            width: 42px;
+
+            height: 42px;
+
+            border-radius: 50%;
+
+            background: #e8f3ee;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 19px;
+        }
+
+
+        .user-name {
+
+            color: #334039;
+
+            font-size: 14px;
+
+            font-weight: 600;
+        }
+
+
+        .post-time {
+
+            display: block;
+
+            color: #9a9f9c;
+
+            font-size: 11px;
+
+            margin-top: 2px;
+        }
+
+
+        .disease-badge {
+
+            background: #edf7f2;
+
+            color: #408267;
+
+            border:
+                1px solid #d9ebe3;
+
+            padding: 6px 12px;
+
+            border-radius: 20px;
+
+            font-size: 12px;
+
+            font-weight: 600;
+        }
+
+
+        /* =====================================================
+           POST BODY
+        ===================================================== */
+
+        .post-title {
+
+            color: #29362f;
+
+            font-size: 19px;
+
+            font-weight: 600;
+
+            margin-bottom: 7px;
+        }
+
+
+        .post-content {
+
+            color: #68716d;
+
+            font-size: 14px;
+
+            line-height: 1.7;
+
+            white-space: pre-wrap;
+        }
+
+
+        /* =====================================================
+           POST FOOTER
+        ===================================================== */
+
+        .post-footer {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            margin-top: 19px;
+
+            padding-top: 14px;
+
+            border-top:
+                1px solid #eeeeee;
+        }
+
+
+        .reply-count {
+
+            color: #858d89;
+
+            font-size: 13px;
+        }
+
+
+        .reply-btn {
+
+            border: none;
+
+            background: none;
+
+            color: #4b9b7d;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+        }
+
+
+        .reply-btn:hover {
+
+            color: #34785d;
+        }
+
+
+        /* =====================================================
+           COMMENTS
+        ===================================================== */
+
+        .comments {
+
+            display: none;
+
+            margin-top: 18px;
+
+            padding-top: 18px;
+
+            border-top:
+                1px solid #eeeeee;
+        }
+
+
+        .comments.show {
+
+            display: block;
+        }
+
+
+        .comment {
+
+            display: flex;
+
+            gap: 10px;
+
+            background: #f8faf9;
+
+            border-radius: 10px;
+
+            padding: 12px;
+
+            margin-bottom: 10px;
+        }
+
+
+        .comment-avatar {
+
+            width: 34px;
+
+            height: 34px;
+
+            flex-shrink: 0;
+
+            border-radius: 50%;
+
+            background: #e8f3ee;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+        }
+
+
+        .comment-name {
+
+            color: #3c4b44;
+
+            font-size: 13px;
+
+            font-weight: 600;
+        }
+
+
+        .comment-text {
+
+            color: #69736e;
+
+            font-size: 13px;
+
+            margin-top: 3px;
+        }
+
+
+        /* =====================================================
+           REPLY FORM
+        ===================================================== */
+
+        .reply-form {
+
+            display: flex;
+
+            gap: 8px;
+
+            margin-top: 13px;
+        }
+
+
+        .reply-form input {
+
+            flex: 1;
+
+            padding: 10px 13px;
+
+            border:
+                1px solid #dce3df;
+
+            border-radius: 8px;
+
+            outline: none;
+        }
+
+
+        .reply-form input:focus {
+
+            border-color: #4b9b7d;
+        }
+
+
+        .reply-form button {
+
+            padding: 10px 17px;
+
+            border: none;
+
+            border-radius: 8px;
+
+            background: #4b9b7d;
+
+            color: #ffffff;
+
+            cursor: pointer;
+        }
+
+
+        .reply-form button:hover {
+
+            background: #398568;
+        }
+
+
+        /* =====================================================
+           EMPTY STATE
+        ===================================================== */
+
+        .empty {
+
+            text-align: center;
+
+            background: #ffffff;
+
+            border:
+                1px solid #e5ebe7;
+
+            border-radius: 16px;
+
+            padding: 55px 20px;
+
+            color: #7b8580;
+        }
+
+
+        .empty-icon {
+
+            font-size: 40px;
+
+            margin-bottom: 10px;
+        }
+
+
+        .empty h3 {
+
+            color: #37433d;
+
+            font-size: 19px;
+
+            margin-bottom: 5px;
+        }
+
+
+        /* =====================================================
+           TOAST
+        ===================================================== */
+
+        .toast {
+
+            position: fixed;
+
+            right: 25px;
+
+            bottom: 25px;
+
+            background: #26332d;
+
+            color: white;
+
+            padding: 13px 18px;
+
+            border-radius: 10px;
+
+            display: none;
+
+            z-index: 2000;
+
+            font-size: 14px;
+        }
+
+
+        .toast.show {
+
+            display: block;
+        }
+
+
+        /* =====================================================
+           MOBILE
+        ===================================================== */
+
+        @media (max-width: 800px) {
+
+            .navbar {
+
+                height: auto;
+
+                padding: 17px 5%;
+
+                flex-direction: column;
+
+                gap: 14px;
+            }
+
+
+            .nav-links {
+
+                gap: 18px;
+
+                flex-wrap: wrap;
+
+                justify-content: center;
+            }
+
+
+            .container {
+
+                width: 92%;
+
+                margin-top: 35px;
+            }
+
+
+            .community-header {
+
+                flex-direction: column;
+
+                align-items: flex-start;
+            }
+
+
+            .community-header h1 {
+
+                font-size: 30px;
+            }
+        }
+
+
+        @media (max-width: 500px) {
+
+            .nav-links {
+
+                gap: 12px;
+            }
+
+
+            .nav-links a {
+
+                font-size: 13px;
+            }
+
+
+            .community-header h1 {
+
+                font-size: 26px;
+            }
+
+
+            .post-card {
+
+                padding: 18px;
+            }
+
+
+            .post-top {
+
+                flex-direction: column;
+            }
+
+
+            .post-footer {
+
+                align-items: flex-start;
+
+                flex-direction: column;
+
+                gap: 8px;
+            }
+
+
+            .reply-form {
+
+                flex-direction: column;
+            }
+
+
+            .reply-form button {
+
+                width: 100%;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- ========================================================
+     NAVBAR
+========================================================= -->
+
+<nav class="navbar">
+
+    <a href="/" class="logo">
+
+        <span class="logo-icon">🐾</span>
+
+        <span>PawCare AI</span>
+
+    </a>
+
+
+    <div class="nav-links">
+
+        <a href="home.html" >
+            Home
+        </a>
+
+        <a href="detect.html">
+            Detect Disease
+        </a>
+        <a href="profile.html">
+            Profile
+        </a>
+
+        <a href="community.html"
+            class="active"
+        >
+            Community
+        </a>
+
+    </div>
+
+</nav>
+
+
+<!-- ========================================================
+     MAIN
+========================================================= -->
+
+<main class="container">
+
+
+    <!-- HEADER -->
+
+    <section class="community-header">
+
+        <div>
+
+            <h1>
+                🐾 PawCare Community
+            </h1>
+
+            <p>
+                Connect with other dog owners and share
+                experiences about your dog's skin health.
+            </p>
+
+        </div>
+
+
+        <button
+            class="create-btn"
+            onclick="togglePostForm()"
+        >
+            + Start Discussion
+        </button>
+
+    </section>
+
+
+    <!-- ====================================================
+         DISEASE INFORMATION
+    ===================================================== -->
+
+    <section class="disease-info">
+
+        <h2>
+            🐶 Dog Skin Health Community
+        </h2>
+
+        <p>
+            Discussions are focused on the four skin-condition
+            classes used by PawCare AI.
+        </p>
+
+
+        <div class="disease-tags">
+
+            <span class="disease-tag">
+                🦠 Bacterial
+            </span>
+
+            <span class="disease-tag">
+                🌼 Allergic
+            </span>
+
+            <span class="disease-tag">
+                🍄 Fungal
+            </span>
+
+            <span class="disease-tag">
+                💚 Healthy
+            </span>
+
+        </div>
+
+    </section>
+
+
+    <!-- ====================================================
+         CREATE POST
+    ===================================================== -->
+
+    <section
+        id="postForm"
+        class="post-form"
+    >
+
+        <h2>
+            Start a Discussion
+        </h2>
+
+
+        <div class="form-group">
+
+            <label for="disease">
+                Skin Condition
+            </label>
+
+            <select id="disease">
+
+                <option value="">
+                    Select condition
+                </option>
+
+                <option value="Bacterial">
+                    🦠 Bacterial
+                </option>
+
+                <option value="Allergic">
+                    🌼 Allergic
+                </option>
+
+                <option value="Fungal">
+                    🍄 Fungal
+                </option>
+
+                <option value="Healthy">
+                    💚 Healthy
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="postTitle">
+                Discussion Title
+            </label>
+
+            <input
+                type="text"
+                id="postTitle"
+                maxlength="150"
+                placeholder="Example: What symptoms did your dog have?"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="postContent">
+                Your Message
+            </label>
+
+            <textarea
+                id="postContent"
+                maxlength="2000"
+                placeholder="Share your question or experience..."
+            ></textarea>
+
+        </div>
+
+
+        <div class="form-buttons">
+
+            <button
+                class="cancel-btn"
+                onclick="togglePostForm()"
+            >
+                Cancel
+            </button>
+
+
+            <button
+                class="create-btn"
+                onclick="createPost()"
+            >
+                Publish Discussion
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- ====================================================
+         DISCUSSIONS
+    ===================================================== -->
+
+    <h2 class="section-title">
+        Recent Discussions
+    </h2>
+
+
+    <section
+        id="posts"
+        class="posts"
+    ></section>
+
+
+</main>
+
+
+<!-- Toast -->
+
+<div
+    id="toast"
+    class="toast"
+></div>
+
+
+<!-- ========================================================
+     JAVASCRIPT
+========================================================= -->
+
+<script>
+
+
+/* ==========================================================
+   TOAST MESSAGE
+========================================================== */
+
+function showToast(message) {
+
+    const toast =
+        document.getElementById("toast");
+
+    toast.textContent = message;
+
+    toast.classList.add("show");
+
+    setTimeout(function () {
+
+        toast.classList.remove("show");
+
+    }, 3000);
+}
+
+
+/* ==========================================================
+   SHOW / HIDE POST FORM
+========================================================== */
+
+function togglePostForm() {
+
+    const form =
+        document.getElementById("postForm");
+
+    form.classList.toggle("show");
+}
+
+
+/* ==========================================================
+   CREATE POST
+========================================================== */
+
+async function createPost() {
+
+    const disease =
+        document.getElementById("disease").value;
+
+    const title =
+        document.getElementById("postTitle").value.trim();
+
+    const content =
+        document.getElementById("postContent").value.trim();
+
+
+    if (!disease) {
+
+        showToast(
+            "Please select a skin condition."
+        );
+
+        return;
+    }
+
+
+    if (!title) {
+
+        showToast(
+            "Please enter a discussion title."
+        );
+
+        return;
+    }
+
+
+    if (!content) {
+
+        showToast(
+            "Please write your message."
+        );
+
+        return;
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                "{{ url_for('community.create_post') }}",
+                {
+
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+
+                        disease: disease,
+
+                        title: title,
+
+                        content: content
+
+                    })
+                }
+            );
+
+
+        const result =
+            await response.json();
+
+
+        if (!result.success) {
+
+            showToast(
+                result.message ||
+                "Unable to create discussion."
+            );
+
+            return;
+        }
+
+
+        showToast(
+            "Discussion posted successfully."
+        );
+
+
+        document.getElementById(
+            "disease"
+        ).value = "";
+
+
+        document.getElementById(
+            "postTitle"
+        ).value = "";
+
+
+        document.getElementById(
+            "postContent"
+        ).value = "";
+
+
+        document.getElementById(
+            "postForm"
+        ).classList.remove("show");
+
+
+        loadPosts();
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        showToast(
+            "Unable to connect to the server."
+        );
+    }
+}
+
+
+/* ==========================================================
+   LOAD POSTS
+========================================================== */
+
+async function loadPosts() {
+
+    try {
+
+        const response =
+            await fetch(
+                "{{ url_for('community_api.get_posts') }}"
+            );
+
+
+        const result =
+            await response.json();
+
+
+        if (!result.success) {
+
+            showEmpty();
+
+            return;
+        }
+
+
+        renderPosts(result.posts);
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        showEmpty();
+
+    }
+}
+
+
+/* ==========================================================
+   RENDER POSTS
+========================================================== */
+
+function renderPosts(posts) {
+
+    const container =
+        document.getElementById("posts");
+
+
+    if (!posts || posts.length === 0) {
+
+        showEmpty();
+
+        return;
+    }
+
+
+    container.innerHTML =
+        posts.map(
+            post => createPostHTML(post)
+        ).join("");
+}
+
+
+/* ==========================================================
+   POST HTML
+========================================================== */
+
+function createPostHTML(post) {
+
+    const comments =
+        post.comments || [];
+
+
+    return `
+
+        <article class="post-card">
+
+            <div class="post-top">
+
+                <div class="user-info">
+
+                    <div class="avatar">
+                        👤
+                    </div>
+
+                    <div>
+
+                        <div class="user-name">
+                            ${escapeHTML(
+                                post.user_name
+                            )}
+                        </div>
+
+                        <span class="post-time">
+                            ${escapeHTML(
+                                post.created_at
+                            )}
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <span class="disease-badge">
+
+                    ${getDiseaseIcon(
+                        post.disease
+                    )}
+
+                    ${escapeHTML(
+                        post.disease
+                    )}
+
+                </span>
+
+            </div>
+
+
+            <h3 class="post-title">
+
+                ${escapeHTML(
+                    post.title
+                )}
+
+            </h3>
+
+
+            <p class="post-content">
+
+                ${escapeHTML(
+                    post.content
+                )}
+
+            </p>
+
+
+            <div class="post-footer">
+
+                <span class="reply-count">
+
+                    💬 ${comments.length}
+                    ${comments.length === 1
+                        ? "reply"
+                        : "replies"}
+
+                </span>
+
+
+                <button
+                    class="reply-btn"
+                    onclick="toggleComments(${post.id})"
+                >
+                    View / Reply →
+                </button>
+
+            </div>
+
+
+            <div
+                id="comments-${post.id}"
+                class="comments"
+            >
+
+                ${renderComments(comments)}
+
+
+                <div class="reply-form">
+
+                    <input
+                        type="text"
+                        id="reply-${post.id}"
+                        maxlength="1000"
+                        placeholder="Write a reply..."
+                    >
+
+
+                    <button
+                        onclick="addComment(${post.id})"
+                    >
+                        Reply
+                    </button>
+
+                </div>
+
+            </div>
+
+        </article>
+
+    `;
+}
+
+
+/* ==========================================================
+   SHOW EMPTY
+========================================================== */
+
+function showEmpty() {
+
+    const container =
+        document.getElementById("posts");
+
+
+    container.innerHTML = `
+
+        <div class="empty">
+
+            <div class="empty-icon">
+                🐾
+            </div>
+
+            <h3>
+                No discussions yet
+            </h3>
+
+            <p>
+                Start the first discussion
+                about your dog's skin health.
+            </p>
+
+        </div>
+
+    `;
+}
+
+
+/* ==========================================================
+   COMMENTS HTML
+========================================================== */
+
+function renderComments(comments) {
+
+    if (!comments || comments.length === 0) {
+
+        return `
+
+            <p
+                style="
+                    color:#888;
+                    margin-bottom:10px;
+                "
+            >
+                No replies yet.
+            </p>
+
+        `;
+    }
+
+
+    return comments.map(
+        comment => `
+
+            <div class="comment">
+
+                <div class="comment-avatar">
+                    👤
+                </div>
+
+
+                <div>
+
+                    <div class="comment-name">
+
+                        ${escapeHTML(
+                            comment.user_name
+                        )}
+
+                    </div>
+
+
+                    <div class="comment-text">
+
+                        ${escapeHTML(
+                            comment.content
+                        )}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        `
+    ).join("");
+}
+
+
+/* ==========================================================
+   ADD COMMENT
+========================================================== */
+
+async function addComment(postId) {
+
+    const input =
+        document.getElementById(
+            "reply-" + postId
+        );
+
+
+    const content =
+        input.value.trim();
+
+
+    if (!content) {
+
+        showToast(
+            "Please write a reply."
+        );
+
+        return;
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                `/community/post/${postId}/comment`,
+                {
+
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+
+                        content: content
+
+                    })
+                }
+            );
+
+
+        const result =
+            await response.json();
+
+
+        if (!result.success) {
+
+            showToast(
+                result.message ||
+                "Unable to add reply."
+            );
+
+            return;
+        }
+
+
+        input.value = "";
+
+
+        showToast(
+            "Reply added successfully."
+        );
+
+
+        loadPosts();
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        showToast(
+            "Unable to connect to the server."
+        );
+    }
+}
+
+
+/* ==========================================================
+   SHOW / HIDE COMMENTS
+========================================================== */
+
+function toggleComments(postId) {
+
+    const comments =
+        document.getElementById(
+            "comments-" + postId
+        );
+
+
+    comments.classList.toggle("show");
+}
+
+
+/* ==========================================================
+   DISEASE ICON
+========================================================== */
+
+function getDiseaseIcon(disease) {
+
+    if (disease === "Bacterial") {
+        return "🦠";
+    }
+
+    if (disease === "Allergic") {
+        return "🌼";
+    }
+
+    if (disease === "Fungal") {
+        return "🍄";
+    }
+
+    if (disease === "Healthy") {
+        return "💚";
+    }
+
+    return "🐾";
+}
+
+
+/* ==========================================================
+   SECURITY
+========================================================== */
+
+function escapeHTML(value) {
+
+    if (value === null ||
+        value === undefined) {
+
+        return "";
+    }
+
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+
+/* ==========================================================
+   INITIAL LOAD
+========================================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        loadPosts();
+
+    }
+);
+
+</script>
+
+
+</body>
+
+</html>

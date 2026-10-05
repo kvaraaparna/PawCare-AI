@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dog Skin Disease Detection – PawCare AI</title>
+
+    <!-- Font Awesome 6.5.2 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <!-- Unified PawCare AI Stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v=4.4">
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+<header class="navbar">
+    <div class="logo-area">
+        <a href="/" class="logo-link">
+            <div class="paw-logo">
+                <i class="fa-solid fa-paw"></i>
+            </div>
+            <div>
+                <h2>PawCare <span>AI</span></h2>
+                <p data-i18n="brand.tagline">Healthy Pets, Happier Lives</p>
+            </div>
+        </a>
+
+        {% if current_user %}
+        <div class="logo-divider"></div>
+        <a href="/profile" class="nav-profile-pill-left" title="View Canine & Owner Profile">
+            <i class="fa-solid fa-circle-user"></i>
+            <span>View Profile</span>
+        </a>
+        {% endif %}
+    </div>
+
+    <nav>
+        <a href="/" data-i18n="nav.home">Home</a>
+        <a href="/detect" class="active" data-i18n="nav.detect">Detect Disease</a>
+        <a href="/#how-it-works" data-i18n="nav.how_it_works">How It Works</a>
+        <a href="/#contact" data-i18n="nav.contact">Contact</a>
+        
+        <a href="community.html">Community</a>
+    </nav>
+
+    <div class="navbar-right">
+
+        {% if not current_user %}
+        <a href="/login" class="nav-login-btn" title="Sign In to PawCare AI">
+            <i class="fa-solid fa-arrow-right-to-bracket"></i>
+            <span>Login</span>
+        </a>
+        {% endif %}
+    </div>
+</header>
+
+<!-- ================= PAGE HEADER ================= -->
+<section class="page-header">
+    <div class="badge" style="margin: 0 auto 14px;" data-i18n="detect.badge">
+        AI Screening Aid • ResNet-18
+    </div>
+    <h1 data-i18n="detect.heading">Dog Skin Disease Detection</h1>
+    <p data-i18n="detect.subtitle">Upload a clear photograph of your dog or affected skin area to analyze possible dermatological patterns.</p>
+</section>
+
+<!-- ================= MAIN DETECTION CONTAINER ================= -->
+<main class="detect-container">
+
+    <!-- TOP SECTION: IMAGE UPLOAD & SAMPLES -->
+    <div class="card">
+        <h2 class="card-title">
+            <i class="fa-solid fa-shield-dog"></i>
+            <span data-i18n="detect.upload_card_title">Dog Image Analysis</span>
+        </h2>
+
+        <!-- Input Mode Selector (Upload Image vs Scan Using Camera) -->
+        <div class="input-mode-selector">
+            <button type="button" class="mode-tab-btn active" id="modeUploadBtn">
+                <i class="fa-solid fa-cloud-arrow-up"></i>
+                <span data-i18n="detect.tab_upload">Upload Image</span>
+            </button>
+            <button type="button" class="mode-tab-btn" id="modeCameraBtn">
+                <i class="fa-solid fa-camera"></i>
+                <span data-i18n="detect.tab_camera">Scan Using Camera</span>
+            </button>
+        </div>
+
+        <!-- Interactive Drag & Drop Area (Upload Mode) -->
+        <div class="upload-dropzone" id="uploadDropzone">
+            <i class="fa-solid fa-cloud-arrow-up dropzone-icon"></i>
+            <p class="dropzone-text" data-i18n="detect.dropzone_text">Drag & drop your dog photograph here</p>
+            <p class="dropzone-subtext" data-i18n="detect.dropzone_subtext">Supports JPG, JPEG, PNG, WEBP (Max 16MB)</p>
+            <span class="browse-btn">
+                <i class="fa-solid fa-folder-open"></i> <span data-i18n="detect.browse_btn">Choose Image</span>
+            </span>
+            <input type="file" id="imageInput" accept=".jpg,.jpeg,.png,.webp" style="display: none;">
+        </div>
+
+        <!-- Live Camera Viewfinder (Camera Mode) -->
+        <div class="camera-container" id="cameraContainer">
+            <div class="camera-viewfinder">
+                <video id="cameraVideo" autoplay playsinline muted></video>
+                <div class="camera-scan-frame"></div>
+                <div class="camera-live-badge">
+                    <i class="fa-solid fa-circle"></i>
+                    <span data-i18n="detect.camera_live">Live Camera Feed</span>
+                </div>
+            </div>
+            <div class="camera-controls-bar">
+                <button type="button" class="btn-capture-photo" id="capturePhotoBtn">
+                    <i class="fa-solid fa-camera"></i>
+                    <span data-i18n="detect.btn_capture">Capture Photo</span>
+                </button>
+                <button type="button" class="btn-flip-camera" id="flipCameraBtn" title="Switch Camera">
+                    <i class="fa-solid fa-camera-rotate"></i>
+                    <span data-i18n="detect.btn_flip_camera">Switch</span>
+                </button>
+                <button type="button" class="btn-cancel-camera" id="closeCameraBtn" title="Cancel Camera">
+                    <i class="fa-solid fa-xmark"></i>
+                    <span data-i18n="detect.btn_cancel_camera">Cancel</span>
+                </button>
+            </div>
+        </div>
+        <div class="camera-notice-box" id="cameraNotice">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            <span id="cameraNoticeText">Camera access is required to scan your dog. Please allow camera permissions in your browser.</span>
+        </div>
+
+        <!-- Selected File Preview Card -->
+        <div class="preview-card" id="previewCard">
+            <div class="preview-content">
+                <img id="previewThumb" class="preview-thumb" src="" alt="Uploaded Dog Preview">
+                <div class="preview-info">
+                    <div id="previewName" class="preview-name">filename.jpg</div>
+                    <div id="previewSize" class="preview-size">0 KB</div>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button type="button" class="btn-remove" id="removeBtn">
+                    <i class="fa-solid fa-trash-can"></i> <span data-i18n="detect.btn_remove">Remove</span>
+                </button>
+                <button type="button" class="btn-analyze" id="analyzeBtn">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> <span data-i18n="detect.btn_analyze">Analyze Image</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Animated Loading State -->
+        <div class="loading-box" id="loadingBox">
+            <div class="spinner"></div>
+            <p class="loading-text" data-i18n="detect.loading_text">Analyzing your dog's image...</p>
+            <p class="dropzone-subtext" style="margin-top: 6px;" data-i18n="detect.loading_subtext">Canine validation & ResNet-18 disease inference in progress</p>
+        </div>
+
+        <!-- Quick Demo Samples (Instant 1-Click Testing) -->
+        <div class="demo-samples">
+            <div class="demo-title">
+                <i class="fa-solid fa-flask-vial"></i> <span data-i18n="detect.demo_title">Quick Demo Test Samples</span>
+            </div>
+            <div class="sample-chips">
+                <button type="button" class="sample-chip" data-sample="{{ url_for('static', filename='samples/healthy.jpg') }}" data-name="healthy.jpg">
+                    <i class="fa-solid fa-dog"></i> <span data-i18n="detect.sample_healthy">Healthy Dog</span>
+                </button>
+                <button type="button" class="sample-chip" data-sample="{{ url_for('static', filename='samples/bacterial.jpg') }}" data-name="bacterial.jpg">
+                    <i class="fa-solid fa-bacteria"></i> <span data-i18n="detect.sample_bacterial">Bacterial Lesion</span>
+                </button>
+                <button type="button" class="sample-chip" data-sample="{{ url_for('static', filename='samples/fungal.jpg') }}" data-name="fungal.jpg">
+                    <i class="fa-solid fa-disease"></i> <span data-i18n="detect.sample_fungal">Fungal Infection</span>
+                </button>
+                <button type="button" class="sample-chip" data-sample="{{ url_for('static', filename='samples/allergic.jpg') }}" data-name="allergic.jpg">
+                    <i class="fa-solid fa-shield-virus"></i> <span data-i18n="detect.sample_allergic">Allergic Dermatosis</span>
+                </button>
+                <button type="button" class="sample-chip nondog-chip" data-sample="{{ url_for('static', filename='samples/nondog.jpg') }}" data-name="nondog.jpg">
+                    <i class="fa-solid fa-ban"></i> <span data-i18n="detect.sample_nondog">Non-Dog Reject Test</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- BOTTOM SECTION: RESULTS & CLINICAL INFORMATION -->
+    <div class="card" id="resultsColumn">
+
+        <!-- Default Initial State -->
+        <div id="initialGuideState" style="text-align: center; padding: 50px 20px;">
+            <div class="step-icon" style="margin-bottom: 18px; width: 68px; height: 68px; font-size: 28px;">
+                <i class="fa-solid fa-paw"></i>
+            </div>
+            <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 8px;" data-i18n="detect.awaiting_title">Awaiting Image Upload</h3>
+            <p style="font-size: 14px; color: var(--text-muted); max-width: 460px; margin: 0 auto;" data-i18n="detect.awaiting_desc">
+                Select an image above or click any of the Quick Demo Samples to run real AI screening.
+            </p>
+        </div>
+
+        <!-- Non-Dog Rejection Notice -->
+        <div class="rejection-card" id="rejectionCard">
+            <div class="rejection-icon">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <h3 class="rejection-title" data-i18n="detect.rejection_title">No Dog Detected</h3>
+            <p class="rejection-desc" id="rejectionReason" data-i18n="detect.rejection_desc">
+                No dog detected. Please upload or capture a clear image of a dog.
+            </p>
+            <button type="button" class="btn-retry" id="retryBtn">
+                <i class="fa-solid fa-arrow-rotate-left"></i> <span data-i18n="detect.btn_retry">Try Another Image</span>
+            </button>
+        </div>
+
+        <!-- Valid Dog Screening Result Card -->
+        <div class="result-card" id="resultCard">
+            <!-- Dog Scanner Verified Badge -->
+            <div class="dog-verified-banner" id="dogVerifiedBanner">
+                <i class="fa-solid fa-circle-check"></i>
+                <span id="dogVerifiedText" data-i18n="detect.dog_verified">Dog detected ✓</span>
+            </div>
+
+            <!-- 1. PREDICTED CONDITION & CONFIDENCE HEADER -->
+            <div class="result-header">
+                <div>
+                    <span class="prediction-badge" id="conditionBadge">Condition</span>
+                    <h3 class="result-condition" id="conditionTitle">Healthy</h3>
+                </div>
+                <div class="confidence-box">
+                    <div class="confidence-val" id="confidenceValue">99.9%</div>
+                    <div class="confidence-label" data-i18n="result.confidence_label">AI Confidence</div>
+                </div>
+            </div>
+
+            <!-- Uncertainty Alert (Conditional) -->
+            <div class="uncertainty-alert" id="uncertaintyBox" style="display: none;">
+                <i class="fa-solid fa-circle-exclamation"></i>
+                <div id="uncertaintyMsg">Low-confidence result. Please consult a veterinarian.</div>
+            </div>
+
+            <!-- 2. POSSIBLE SPECIFIC DISEASE NAME -->
+            <div class="specific-disease-card" id="specificDiseaseCard">
+                <div class="section-label-row">
+                    <span class="sec-tag"><i class="fa-solid fa-stethoscope"></i> Possible Specific Condition</span>
+                    <span class="grok-source-pill" id="analysisSourcePill"><i class="fa-solid fa-brain"></i> Grok AI Analysis</span>
+                </div>
+                <h4 class="specific-disease-title" id="specificDiseaseName">Loading specific condition...</h4>
+            </div>
+
+            <!-- 3. AI ANALYSIS / EXPLANATION -->
+            <div class="ai-analysis-card" id="aiAnalysisCard">
+                <div class="section-title-sm">
+                    <i class="fa-solid fa-microscope"></i> AI Dermatological Analysis
+                </div>
+                <p class="ai-analysis-text" id="aiAnalysisText">
+                    Clinical examination explanation will appear here...
+                </p>
+            </div>
+
+            <!-- 4. SYMPTOMS OR VISIBLE SIGNS -->
+            <div class="clinical-block symptoms-block">
+                <div class="section-title-sm">
+                    <i class="fa-solid fa-notes-medical"></i> Symptoms & Visible Signs
+                </div>
+                <ul class="clinical-check-list" id="symptomsList">
+                    <!-- Populated dynamically -->
+                </ul>
+            </div>
+
+            <!-- 5. PRECAUTIONS -->
+            <div class="clinical-block precautions-block">
+                <div class="section-title-sm caution-title">
+                    <i class="fa-solid fa-triangle-exclamation"></i> Important Precautions
+                </div>
+                <ul class="clinical-warning-list" id="precautionsList">
+                    <!-- Populated dynamically -->
+                </ul>
+            </div>
+
+            <!-- 6. RECOMMENDED CARE -->
+            <div class="clinical-block care-block">
+                <div class="section-title-sm care-title">
+                    <i class="fa-solid fa-hand-holding-medical"></i> Recommended Care & Supportive Steps
+                </div>
+                <ul class="clinical-care-list" id="recommendedCareList">
+                    <!-- Populated dynamically -->
+                </ul>
+            </div>
+
+            <!-- 7. WHEN TO CONSULT A VETERINARIAN -->
+            <div class="clinical-block vet-block">
+                <div class="section-title-sm vet-title">
+                    <i class="fa-solid fa-user-doctor"></i> When to Consult a Veterinarian (Red Flags)
+                </div>
+                <ul class="clinical-vet-list" id="whenToSeeVetList">
+                    <!-- Populated dynamically -->
+                </ul>
+
+                <!-- Find a Local Vet Locator Box -->
+                <div class="vet-locator-container">
+                    <button type="button" class="btn-find-local-vet" id="findVetBtn" title="Search nearby veterinary clinics on Google Maps">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <span data-i18n="result.btn_find_vet">Find a Local Vet</span>
+                    </button>
+                    <div class="vet-locator-feedback" id="vetLocatorFeedback" style="display: none;" role="alert"></div>
+                </div>
+            </div>
+
+            <!-- 4-Class Probability Breakdown -->
+            <div class="probabilities-section">
+                <div class="prob-title">
+                    <i class="fa-solid fa-chart-simple"></i> <span data-i18n="result.probabilities_title">Class Probabilities (4 Main Categories)</span>
+                </div>
+                <div id="probBarsContainer">
+                    <!-- Populated dynamically by script.js -->
+                </div>
+            </div>
+
+            <!-- Action Buttons: PDF Report, Find a Local Vet & Grad-CAM Explanation -->
+            <div class="result-actions-row">
+                <button type="button" class="btn-action-primary" id="downloadPdfBtn">
+                    <i class="fa-solid fa-file-pdf"></i> <span data-i18n="result.btn_download_pdf">Download PDF Report</span>
+                </button>
+                <button type="button" class="btn-action-vet" id="findVetBtnSecondary">
+                    <i class="fa-solid fa-location-dot"></i> <span data-i18n="result.btn_find_vet">Find a Local Vet</span>
+                </button>
+                <button type="button" class="btn-action-secondary" id="viewAiExplanationBtn">
+                    <i class="fa-solid fa-brain"></i> <span data-i18n="result.btn_view_explanation">View Grad-CAM Heatmap</span>
+                </button>
+            </div>
+
+            <!-- ================= AI EXPLANATION (GRAD-CAM) SECTION ================= -->
+            <div class="explanation-section" id="explanationSection" style="display: none;">
+                <div class="explanation-header">
+                    <div class="explanation-title-row">
+                        <i class="fa-solid fa-lightbulb"></i>
+                        <h4 class="explanation-heading" data-i18n="explanation.heading">Grad-CAM Heatmap Explanation</h4>
+                    </div>
+                    <p class="explanation-subtitle" data-i18n="explanation.subtitle">
+                        See which regions of the image contributed most strongly to the AI prediction.
+                    </p>
+                </div>
+
+                <!-- Unavailable Fallback Notice -->
+                <div class="explanation-fallback" id="explanationFallback" style="display: none;">
+                    <i class="fa-solid fa-circle-info"></i>
+                    <span id="explanationFallbackMsg" data-i18n="explanation.fallback_msg">AI explanation is temporarily unavailable, but the prediction result is still available.</span>
+                </div>
+
+                <!-- Dual Visual Cards: Original vs Grad-CAM -->
+                <div class="explanation-grid" id="explanationGrid">
+                    <div class="explanation-card">
+                        <div class="explanation-card-tag">
+                            <i class="fa-solid fa-image"></i> <span data-i18n="explanation.card_original">ORIGINAL IMAGE</span>
+                        </div>
+                        <div class="explanation-img-box">
+                            <img id="explanationOrigImg" src="" alt="Original Uploaded Dog Photograph">
+                        </div>
+                    </div>
+
+                    <div class="explanation-card attention-card">
+                        <div class="explanation-card-tag">
+                            <i class="fa-solid fa-fire"></i> <span data-i18n="explanation.card_gradcam">AI ATTENTION / GRAD-CAM</span>
+                        </div>
+                        <div class="explanation-img-box">
+                            <img id="explanationGradcamImg" src="" alt="Grad-CAM Heatmap Activation Overlay">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Heatmap Interpretation Legend & Notice -->
+                <div class="explanation-details">
+                    <p class="explanation-notice">
+                        <i class="fa-solid fa-circle-info"></i>
+                        <span data-i18n="explanation.notice">Highlighted regions show areas that contributed strongly to the model's prediction.</span>
+                    </p>
+
+                    <div class="heatmap-legend-box">
+                        <div class="legend-labels">
+                            <span data-i18n="explanation.legend_low">Low contribution</span>
+                            <i class="fa-solid fa-arrow-right-long"></i>
+                            <span data-i18n="explanation.legend_high">High contribution</span>
+                        </div>
+                        <div class="heatmap-gradient-bar"></div>
+                    </div>
+
+                    <div class="explanation-action-row">
+                        <button type="button" class="btn-download-gradcam" id="downloadGradcamBtn">
+                            <i class="fa-solid fa-download"></i> <span data-i18n="explanation.btn_download">Download Explanation Image</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mandatory Veterinary Disclaimer -->
+            <div class="disclaimer-card">
+                <i class="fa-solid fa-shield-halved"></i>
+                <p>
+                    <strong data-i18n="result.disclaimer_title">Important Notice:</strong>
+                    <span data-i18n="result.disclaimer_text">This AI screening result is an educational assistive tool and does not constitute a clinical veterinary diagnosis. If your dog exhibits signs of pain, pruritus, or worsening lesions, please consult a certified veterinary professional.</span>
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+    <div class="footer-logo">
+        <i class="fa-solid fa-paw"></i>
+        PawCare AI
+    </div>
+    <p data-i18n="footer.tagline">
+        Dog Skin Disease Detection System. Powered by PyTorch ResNet-18 Transfer Learning.
+    </p>
+    <p class="copyright" data-i18n="footer.copyright">
+        © 2026 PawCare AI. All rights reserved.
+    </p>
+</footer>
+
+<!-- Scripts -->
+<script src="{{ url_for('static', filename='js/translations.js') }}?v=4.4"></script>
+<script src="{{ url_for('static', filename='js/script.js') }}?v=4.4"></script>
+</body>
+</html>

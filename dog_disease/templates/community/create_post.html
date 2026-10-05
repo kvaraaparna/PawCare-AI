@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        {% if edit_mode %}
+            Edit Post
+        {% else %}
+            Create Post
+        {% endif %}
+        | PawCare AI
+    </title>
+
+    <link rel="stylesheet"
+          href="{{ url_for(
+              'static',
+              filename='css/community.css'
+          ) }}">
+
+</head>
+
+
+<body>
+
+<nav class="navbar">
+
+    <div class="nav-logo">
+        🐾 PawCare AI
+    </div>
+
+    <div class="nav-links">
+
+        <a href="/">Home</a>
+
+        <a href="{{ url_for(
+            'community.community_home'
+        ) }}">
+            Community
+        </a>
+
+    </div>
+
+</nav>
+
+
+<main class="form-container">
+
+    <div class="form-card">
+
+        {% if edit_mode %}
+
+            <h1>✏️ Edit Your Post</h1>
+
+            <p>
+                Update your community discussion.
+            </p>
+
+        {% else %}
+
+            <h1>📝 Create Community Post</h1>
+
+            <p>
+                Share your experience or ask the community
+                a question.
+            </p>
+
+        {% endif %}
+
+
+        <form method="POST"
+              id="postForm">
+
+
+            <!-- CATEGORY -->
+
+            <div class="form-group">
+
+                <label for="category">
+                    Category
+                </label>
+
+                <select
+                    name="category"
+                    id="category"
+                    required
+                >
+
+                    <option value="">
+                        Select a category
+                    </option>
+
+                    {% set categories = [
+                        'General Animal Care',
+                        'Dog Health',
+                        'Cat Health',
+                        'Skin Problems',
+                        'Eye Problems',
+                        'Ear Problems',
+                        'Disease Discussion',
+                        'Nutrition',
+                        'Training & Behavior'
+                    ] %}
+
+                    {% for category in categories %}
+
+                    <option
+                        value="{{ category }}"
+                        {% if post and post.category == category %}
+                            selected
+                        {% endif %}
+                    >
+
+                        {{ category }}
+
+                    </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+
+            <!-- TITLE -->
+
+            <div class="form-group">
+
+                <label for="title">
+                    Post Title
+                </label>
+
+                <input
+                    type="text"
+                    name="title"
+                    id="title"
+                    maxlength="200"
+                    placeholder="Example: My dog has a skin problem"
+                    value="{{ post.title if post else '' }}"
+                    required
+                >
+
+                <small id="titleCounter">
+                    0 / 200
+                </small>
+
+            </div>
+
+
+            <!-- CONTENT -->
+
+            <div class="form-group">
+
+                <label for="content">
+                    Description
+                </label>
+
+                <textarea
+                    name="content"
+                    id="content"
+                    rows="8"
+                    maxlength="5000"
+                    placeholder="Describe your question or experience..."
+                    required
+                >{{ post.content if post else '' }}</textarea>
+
+                <small id="contentCounter">
+                    0 / 5000
+                </small>
+
+            </div>
+
+
+            <!-- BUTTONS -->
+
+            <div class="form-actions">
+
+                <a
+                    href="{{ url_for(
+                        'community.community_home'
+                    ) }}"
+                    class="cancel-btn"
+                >
+                    Cancel
+                </a>
+
+                <button
+                    type="submit"
+                    class="submit-btn"
+                >
+
+                    {% if edit_mode %}
+                        Update Post
+                    {% else %}
+                        Publish Post
+                    {% endif %}
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</main>
+
+
+<script src="{{ url_for(
+    'static',
+    filename='js/community.js'
+) }}"></script>
+
+</body>
+
+</html>

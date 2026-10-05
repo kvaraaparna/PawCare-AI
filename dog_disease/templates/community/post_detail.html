@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        {{ post.title }} | PawCare AI
+    </title>
+
+    <link rel="stylesheet"
+          href="{{ url_for(
+              'static',
+              filename='css/community.css'
+          ) }}">
+
+</head>
+
+
+<body>
+
+
+<nav class="navbar">
+
+    <div class="nav-logo">
+        🐾 PawCare AI
+    </div>
+
+    <div class="nav-links">
+
+        <a href="/">Home</a>
+
+        <a href="{{ url_for(
+            'community.community_home'
+        ) }}">
+            Community
+        </a>
+
+    </div>
+
+</nav>
+
+
+<main class="post-detail-container">
+
+    <!-- POST -->
+
+    <article class="detail-post">
+
+        <div class="detail-header">
+
+            <span class="post-category">
+                {{ post.category }}
+            </span>
+
+            <span class="post-date">
+
+                {{ post.created_at.strftime(
+                    '%d %b %Y, %I:%M %p'
+                ) }}
+
+            </span>
+
+        </div>
+
+
+        <h1>
+            {{ post.title }}
+        </h1>
+
+
+        <div class="author">
+
+            <div class="user-avatar">
+                👤
+            </div>
+
+            <div>
+
+                <strong>
+                    User {{ post.user_id }}
+                </strong>
+
+                <span>
+                    Community Member
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="detail-content">
+
+            {{ post.content }}
+
+        </div>
+
+
+        <!-- ACTIONS -->
+
+        <div class="post-actions">
+
+            {% if session.get('user_id') %}
+
+                <button
+                    type="button"
+                    class="action-btn"
+                    onclick="likePost({{ post.id }})"
+                >
+                    ❤️ <span id="likeCount">0</span>
+                </button>
+
+                {% if session.get('user_id') == post.user_id %}
+
+                    <a
+                        href="{{ url_for(
+                            'community.edit_post',
+                            post_id=post.id
+                        ) }}"
+                        class="action-btn"
+                    >
+                        ✏️ Edit
+                    </a>
+
+                    <form
+                        method="POST"
+                        action="{{ url_for(
+                            'community.delete_community_post',
+                            post_id=post.id
+                        ) }}"
+                        onsubmit="return confirmDelete()"
+                        style="display:inline;"
+                    >
+
+                        <button
+                            type="submit"
+                            class="action-btn danger"
+                        >
+                            🗑️ Delete
+                        </button>
+
+                    </form>
+
+                {% endif %}
+
+            {% else %}
+
+                <a
+                    href="{{ url_for('login') }}"
+                    class="action-btn"
+                >
+                    Login to interact
+                </a>
+
+            {% endif %}
+
+        </div>
+
+    </article>
+
+
+    <!-- COMMENTS -->
+
+    <section class="comments-section">
+
+        <div class="comments-header">
+
+            <h2>
+                💬 Discussion
+            </h2>
+
+            <span>
+                Join the conversation
+            </span>
+
+        </div>
+
+
+        <!-- Comment form -->
+
+        {% if session.get('user_id') %}
+
+        <form
+            class="comment-form"
+            id="commentForm"
+        >
+
+            <textarea
+                id="commentInput"
+                name="content"
+                rows="4"
+                maxlength="2000"
+                placeholder="Write your comment..."
+                required
+            ></textarea>
+
+            <div class="comment-form-footer">
+
+                <small id="commentCounter">
+                    0 / 2000
+                </small>
+
+                <button type="submit">
+                    Post Comment
+                </button>
+
+            </div>
+
+        </form>
+
+        {% else %}
+
+        <div class="login-comment">
+
+            <p>
+                Please login to join the discussion.
+            </p>
+
+            <a href="{{ url_for('login') }}">
+                Login
+            </a>
+
+        </div>
+
+        {% endif %}
+
+
+        <!-- Comments will appear here -->
+
+        <div
+            id="commentsContainer"
+            class="comments-list"
+        >
+
+            <div class="no-comments">
+
+                💬 No comments yet.
+
+                <br>
+
+                Be the first to join the conversation!
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<script>
+
+    const POST_ID = {{ post.id }};
+
+</script>
+
+
+<script src="{{ url_for(
+    'static',
+    filename='js/community.js'
+) }}"></script>
+
+</body>
+
+</html>

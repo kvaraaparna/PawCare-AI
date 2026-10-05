@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Training & Dataset Management – PawCare AI</title>
+
+    <!-- Font Awesome 6.5.2 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <!-- Unified PawCare AI Stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v=3.3">
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+<header class="navbar">
+    <div class="logo-area">
+        <a href="/" class="logo-link">
+            <div class="paw-logo">
+                <i class="fa-solid fa-paw"></i>
+            </div>
+            <div>
+                <h2>PawCare <span>AI</span></h2>
+                <p data-i18n="brand.tagline">Healthy Pets, Happier Lives</p>
+            </div>
+        </a>
+
+        {% if current_user %}
+        <div class="logo-divider"></div>
+        <a href="/profile" class="nav-profile-pill-left" title="View Canine & Owner Profile">
+            <i class="fa-solid fa-circle-user"></i>
+            <span>View Profile</span>
+        </a>
+        {% endif %}
+    </div>
+
+    <nav>
+        <a href="/" data-i18n="nav.home">Home</a>
+        <a href="/detect" data-i18n="nav.detect">Detect Disease</a>
+        <a href="/#how-it-works" data-i18n="nav.how_it_works">How It Works</a>
+        <a href="/#contact" data-i18n="nav.contact">Contact</a>
+        <a href="/#community" data-i18n="community">Community</a>
+    </nav>
+
+    <div class="navbar-right">
+        {% if not current_user %}
+        <a href="/login" class="nav-login-btn" title="Sign In to PawCare AI">
+            <i class="fa-solid fa-arrow-right-to-bracket"></i>
+            <span>Login</span>
+        </a>
+        {% endif %}
+    </div>
+</header>
+
+<!-- ================= PAGE HEADER ================= -->
+<section class="page-header">
+    <div class="badge" style="margin: 0 auto 14px;">
+        Admin & Research Module <span>•</span> Model Retraining
+    </div>
+    <h1>Training Dataset & Optional Model Training</h1>
+    <p>Upload a ZIP dataset organized by disease class, validate folder integrity, and optionally train an updated ResNet-18 model.</p>
+</section>
+
+<!-- ================= MAIN CONTAINER ================= -->
+<main class="detect-container">
+
+    <!-- LEFT COLUMN: ZIP UPLOAD & STRUCTURE -->
+    <div class="card">
+        <div class="training-notice">
+            <i class="fa-solid fa-shield-halved" style="font-size: 20px;"></i>
+            <div>
+                <strong>Safety Policy:</strong> Normal detection runs strictly on <code>best_dog_disease_resnet18.pth</code>. Training is isolated and outputs to <code>models/dog_disease_resnet18_v2.pth</code>.
+            </div>
+        </div>
+
+        <h2 class="card-title">
+            <i class="fa-solid fa-file-zipper"></i>
+            Upload Dataset ZIP
+        </h2>
+
+        <!-- Dropzone for ZIP -->
+        <div class="upload-dropzone" id="zipDropzone">
+            <i class="fa-solid fa-file-zipper dropzone-icon"></i>
+            <p class="dropzone-text">Click or drop dataset ZIP archive</p>
+            <p class="dropzone-subtext">Supported: .zip archive containing 4 disease class folders (Max 300MB)</p>
+            <span class="browse-btn">
+                <i class="fa-solid fa-folder-open"></i> Choose Dataset ZIP
+            </span>
+            <input type="file" id="datasetZipInput" accept=".zip" style="display: none;">
+        </div>
+
+        <!-- Selected ZIP Info -->
+        <div class="preview-card" id="zipPreview" style="display: none; margin-top: 18px;">
+            <div class="preview-content">
+                <div class="step-icon" style="width: 50px; height: 50px; font-size: 20px;">
+                    <i class="fa-solid fa-file-zipper"></i>
+                </div>
+                <div class="preview-info">
+                    <div id="zipName" class="preview-name">dataset.zip</div>
+                    <div id="zipSize" class="preview-size">0 MB</div>
+                </div>
+            </div>
+
+            <div class="action-buttons" style="margin-top: 14px;">
+                <button type="button" class="btn-analyze" id="validateDatasetBtn" style="width: 100%;">
+                    <i class="fa-solid fa-circle-check"></i> Validate Dataset
+                </button>
+            </div>
+        </div>
+
+        <!-- Expected Dataset Structure Reference -->
+        <div class="education-box" style="margin-top: 24px;">
+            <div class="education-title">
+                <i class="fa-solid fa-folder-tree"></i> Expected ZIP Hierarchy
+            </div>
+            <pre style="font-family: monospace; font-size: 12px; color: var(--text-muted); line-height: 1.6; background: white; padding: 12px; border-radius: var(--radius-sm); border: 1px solid var(--border-color);">
+dog_skin_dataset/
+├── Healthy/                               (119 images)
+├── Hypersensitivity_allergic_dermatosis/  (89 images)
+├── Fungal_infections/                     (137 images)
+└── Bacterial_dermatosis/                  (97 images)
+            </pre>
+            <p style="font-size: 12px; color: var(--text-muted); margin-top: 8px;">
+                Direct extraction or a single enclosing root folder (e.g. <code>Dogs/</code>) are both automatically recognized.
+            </p>
+        </div>
+    </div>
+
+    <!-- RIGHT COLUMN: VALIDATION SUMMARY & LIVE TRAINING MONITOR -->
+    <div class="card">
+        <h2 class="card-title">
+            <i class="fa-solid fa-sliders"></i>
+            Validation Summary & Controls
+        </h2>
+
+        <!-- Initial Placeholder State -->
+        <div id="summaryPlaceholder" style="text-align: center; padding: 40px 20px;">
+            <div class="step-icon" style="margin-bottom: 16px; width: 64px; height: 64px; font-size: 24px;">
+                <i class="fa-solid fa-database"></i>
+            </div>
+            <h3 style="font-size: 17px; font-weight: 700; margin-bottom: 6px;">No Dataset Validated Yet</h3>
+            <p style="font-size: 13px; color: var(--text-muted); max-width: 340px; margin: 0 auto;">
+                Select a dataset ZIP file on the left and click <strong>Validate Dataset</strong> to verify class distributions.
+            </p>
+        </div>
+
+        <!-- Validation Summary Card (Revealed upon successful validation) -->
+        <div id="summaryCard" style="display: none;">
+            <ul class="validation-checklist">
+                <li><i class="fa-solid fa-circle-check"></i> Path Traversal & Security Validation: <strong>PASSED</strong></li>
+                <li><i class="fa-solid fa-circle-check"></i> Safe Image Decoding (.jpg, .jpeg, .png, .webp): <strong>PASSED</strong></li>
+                <li><i class="fa-solid fa-circle-check"></i> All 4 Canonical Disease Classes Present: <strong>PASSED</strong></li>
+            </ul>
+
+            <div class="prob-title">
+                <i class="fa-solid fa-table-list"></i> Image Counts by Class
+            </div>
+
+            <div class="dataset-summary-grid">
+                <div class="summary-metric">
+                    <span class="metric-name">Healthy</span>
+                    <span class="metric-val" id="countHealthy">--</span>
+                </div>
+                <div class="summary-metric">
+                    <span class="metric-name">Allergic Dermatosis</span>
+                    <span class="metric-val" id="countHypersensitivity">--</span>
+                </div>
+                <div class="summary-metric">
+                    <span class="metric-name">Fungal Infections</span>
+                    <span class="metric-val" id="countFungal">--</span>
+                </div>
+                <div class="summary-metric">
+                    <span class="metric-name">Bacterial Dermatosis</span>
+                    <span class="metric-val" id="countBacterial">--</span>
+                </div>
+                <div class="summary-metric total">
+                    <span class="metric-name" style="font-size: 15px;">Total Training Images</span>
+                    <span class="metric-val" id="countTotal" style="font-size: 24px;">--</span>
+                </div>
+            </div>
+
+            <!-- Start Training Button -->
+            <button type="button" class="btn-start-training" id="startTrainingBtn" disabled>
+                <i class="fa-solid fa-play"></i> START TRAINING
+            </button>
+            <p style="font-size: 11px; text-align: center; color: var(--text-muted); margin-top: 8px;">
+                Training runs only after explicit click. Training runs 15 epochs with 80/20 train/val split.
+            </p>
+        </div>
+
+        <!-- Live Training Progress Card -->
+        <div id="trainingProgressCard" style="display: none; margin-top: 25px; padding-top: 20px; border-top: 1px solid var(--border-color);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="font-size: 14px; font-weight: 700; color: var(--text-main);">
+                    <i class="fa-solid fa-gear fa-spin" style="color: var(--primary-color);"></i> Training Model...
+                </span>
+                <span id="trainEpochText" style="font-size: 13px; font-weight: 800; color: var(--primary-color);">Epoch 0 / 15</span>
+            </div>
+
+            <div class="prob-bar-track" style="height: 12px; margin-bottom: 16px;">
+                <div class="prob-bar-fill" id="trainProgressBar" style="width: 0%;"></div>
+            </div>
+
+            <!-- Metrics Grid -->
+            <div class="dataset-summary-grid" style="margin-top: 12px;">
+                <div class="summary-metric">
+                    <span class="metric-name">Train Loss</span>
+                    <span class="metric-val" id="trainLossVal">0.00</span>
+                </div>
+                <div class="summary-metric">
+                    <span class="metric-name">Train Accuracy</span>
+                    <span class="metric-val" id="trainAccVal">0.00%</span>
+                </div>
+                <div class="summary-metric">
+                    <span class="metric-name">Val Accuracy</span>
+                    <span class="metric-val" id="valAccVal">0.00%</span>
+                </div>
+                <div class="summary-metric">
+                    <span class="metric-name">Best Val Accuracy</span>
+                    <span class="metric-val" id="bestValAccVal" style="color: var(--primary-color);">0.00%</span>
+                </div>
+            </div>
+
+            <!-- Terminal Logs -->
+            <div class="prob-title" style="margin-top: 16px;">
+                <i class="fa-solid fa-terminal"></i> Live Training Console
+            </div>
+            <div class="terminal-box" id="terminalLogs">
+                <div>> Waiting for training start...</div>
+            </div>
+        </div>
+
+    </div>
+
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+    <div class="footer-logo">
+        <i class="fa-solid fa-paw"></i>
+        PawCare AI
+    </div>
+    <p>
+        Dog Skin Disease Detection System. Production Model: best_dog_disease_resnet18.pth.
+    </p>
+    <p class="copyright">
+        © 2026 PawCare AI. All rights reserved.
+    </p>
+</footer>
+
+<!-- Scripts -->
+<script src="{{ url_for('static', filename='js/translations.js') }}"></script>
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
