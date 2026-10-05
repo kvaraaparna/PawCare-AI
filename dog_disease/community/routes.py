@@ -9,14 +9,16 @@ from flask import (
 )
 
 from database import db
-from community.models import(
+
+from community.models import (
     CommunityPost,
-    CommunityComment, 
-    CommunityLike, 
+    CommunityComment,
+    CommunityLike,
     CommunityReport
-    )
+)
+
 from .service import (
-    create_post,
+    create_post as create_post_service,
     get_all_posts,
     get_post_by_id,
     get_posts_by_category,
@@ -25,6 +27,10 @@ from .service import (
     delete_post
 )
 
+
+# ============================================================
+# COMMUNITY BLUEPRINT
+# ============================================================
 
 community_bp = Blueprint(
     "community",
@@ -43,25 +49,36 @@ def community_home():
     category = request.args.get("category")
     search = request.args.get("search")
 
-    if search:
-        posts = search_posts(
-            CommunityPost,
-            search
+    try:
+
+        if search:
+            posts = search_posts(
+                CommunityPost,
+                search
+            )
+
+        elif category:
+            posts = get_posts_by_category(
+                CommunityPost,
+                category
+            )
+
+        else:
+            posts = get_all_posts()
+
+    except Exception as e:
+
+        print("COMMUNITY ERROR:", e)
+
+        flash(
+            "Unable to load community posts.",
+            "danger"
         )
 
-    elif category:
-        posts = get_posts_by_category(
-            CommunityPost,
-            category
-        )
-
-    else:
-        posts = get_all_posts(
-            CommunityPost
-        )
+        posts = []
 
     return render_template(
-        "community/community.html",
+        "community.html",
         posts=posts,
         selected_category=category,
         search_query=search
@@ -70,42 +87,106 @@ def community_home():
 
 # ============================================================
 # CREATE POST
+# IMPORTANT:
+# Endpoint becomes:
+# community.create_post
 # ============================================================
 
 @community_bp.route("/create", methods=["GET", "POST"])
-def create_community_post():
+def create_post():
 
-    # User must be logged in
+    # --------------------------------------------------------
+    # LOGIN CHECK
+    # --------------------------------------------------------
+
     if "user_id" not in session:
-        flash("Please login to create a community post.", "warning")
+
+        flash(
+            "Please login to create a community post.",
+            "warning"
+        )
+
         return redirect(url_for("login"))
 
-    if request.method == "POST":
 
-        title = request.form.get("title", "").strip()
-        content = request.form.get("content", "").strip()
-        category = request.form.get("category", "").strip()
+    # --------------------------------------------------------
+    # GET REQUEST
+    # --------------------------------------------------------
 
-        # Validation
-        if not title:
-            flash("Please enter a post title.", "danger")
-            return render_template(
-                "community/create_post.html"
-            )
+    if request.method == "GET":
 
-        if not content:
-            flash("Please enter your post content.", "danger")
-            return render_template(
-                "community/create_post.html"
-            )
+        return render_template(
+            "community/create_post.html"
+        )
 
-        if not category:
-            flash("Please select a category.", "danger")
-            return render_template(
-                "community/create_post.html"
-            )
 
-        post = create_post(
+    # --------------------------------------------------------
+    # POST REQUEST
+    # --------------------------------------------------------
+
+    title = request.form.get(
+        "title",
+        ""
+    ).strip()
+
+    content = request.form.get(
+        "content",
+        ""
+    ).strip()
+
+    category = request.form.get(
+        "category",
+        ""
+    ).strip()
+
+
+    # --------------------------------------------------------
+    # VALIDATION
+    # --------------------------------------------------------
+
+    if not title:
+
+        flash(
+            "Please enter a post title.",
+            "danger"
+        )
+
+        return render_template(
+            "community/create_post.html"
+        )
+
+
+    if not content:
+
+        flash(
+            "Please enter your post content.",
+            "danger"
+        )
+
+        return render_template(
+            "community/create_post.html"
+        )
+
+
+    if not category:
+
+        flash(
+            "Please select a category.",
+            "danger"
+        )
+
+        return render_template(
+            "community/create_post.html"
+        )
+
+
+    # --------------------------------------------------------
+    # CREATE POST USING SERVICE
+    # --------------------------------------------------------
+
+    try:
+
+        post = create_post_service(
             db=db,
             CommunityPost=CommunityPost,
             user_id=session["user_id"],
@@ -114,17 +195,39 @@ def create_community_post():
             category=category
         )
 
-        flash("Your post was created successfully!", "success")
+    except Exception as e:
 
-        return redirect(
-            url_for(
-                "community.view_post",
-                post_id=post.id
-            )
+        db.session.rollback()
+
+        print(
+            "CREATE POST ERROR:",
+            e
         )
 
-    return render_template(
-        "community/create_post.html"
+        flash(
+            "Unable to create the post.",
+            "danger"
+        )
+
+        return render_template(
+            "community/create_post.html"
+        )
+
+
+    # --------------------------------------------------------
+    # SUCCESS
+    # --------------------------------------------------------
+
+    flash(
+        "Your post was created successfully!",
+        "success"
+    )
+
+    return redirect(
+        url_for(
+            "community.view_post",
+            post_id=post.id
+        )
     )
 
 
@@ -132,7 +235,10 @@ def create_community_post():
 # VIEW SINGLE POST
 # ============================================================
 
-@community_bp.route("/post/<int:post_id>", methods=["GET"])
+@community_bp.route(
+    "/post/<int:post_id>",
+    methods=["GET"]
+)
 def view_post(post_id):
 
     post = get_post_by_id(
@@ -141,9 +247,16 @@ def view_post(post_id):
     )
 
     if post is None:
-        flash("Post not found.", "danger")
+
+        flash(
+            "Post not found.",
+            "danger"
+        )
+
         return redirect(
-            url_for("community.community_home")
+            url_for(
+                "community.community_home"
+            )
         )
 
     return render_template(
@@ -162,9 +275,25 @@ def view_post(post_id):
 )
 def edit_post(post_id):
 
+    # --------------------------------------------------------
+    # LOGIN CHECK
+    # --------------------------------------------------------
+
     if "user_id" not in session:
-        flash("Please login first.", "warning")
-        return redirect(url_for("login"))
+
+        flash(
+            "Please login first.",
+            "warning"
+        )
+
+        return redirect(
+            url_for("login")
+        )
+
+
+    # --------------------------------------------------------
+    # GET POST
+    # --------------------------------------------------------
 
     post = get_post_by_id(
         CommunityPost,
@@ -172,13 +301,25 @@ def edit_post(post_id):
     )
 
     if post is None:
-        flash("Post not found.", "danger")
-        return redirect(
-            url_for("community.community_home")
+
+        flash(
+            "Post not found.",
+            "danger"
         )
 
-    # Check ownership
+        return redirect(
+            url_for(
+                "community.community_home"
+            )
+        )
+
+
+    # --------------------------------------------------------
+    # OWNERSHIP CHECK
+    # --------------------------------------------------------
+
     if post.user_id != session["user_id"]:
+
         flash(
             "You are not authorized to edit this post.",
             "danger"
@@ -191,11 +332,28 @@ def edit_post(post_id):
             )
         )
 
+
+    # --------------------------------------------------------
+    # UPDATE POST
+    # --------------------------------------------------------
+
     if request.method == "POST":
 
-        title = request.form.get("title", "").strip()
-        content = request.form.get("content", "").strip()
-        category = request.form.get("category", "").strip()
+        title = request.form.get(
+            "title",
+            ""
+        ).strip()
+
+        content = request.form.get(
+            "content",
+            ""
+        ).strip()
+
+        category = request.form.get(
+            "category",
+            ""
+        ).strip()
+
 
         updated_post, error = update_post(
             db=db,
@@ -207,8 +365,13 @@ def edit_post(post_id):
             category=category
         )
 
+
         if error:
-            flash(error, "danger")
+
+            flash(
+                error,
+                "danger"
+            )
 
             return redirect(
                 url_for(
@@ -216,6 +379,7 @@ def edit_post(post_id):
                     post_id=post_id
                 )
             )
+
 
         flash(
             "Post updated successfully!",
@@ -228,6 +392,11 @@ def edit_post(post_id):
                 post_id=updated_post.id
             )
         )
+
+
+    # --------------------------------------------------------
+    # EDIT PAGE
+    # --------------------------------------------------------
 
     return render_template(
         "community/create_post.html",
@@ -246,9 +415,25 @@ def edit_post(post_id):
 )
 def delete_community_post(post_id):
 
+    # --------------------------------------------------------
+    # LOGIN CHECK
+    # --------------------------------------------------------
+
     if "user_id" not in session:
-        flash("Please login first.", "warning")
-        return redirect(url_for("login"))
+
+        flash(
+            "Please login first.",
+            "warning"
+        )
+
+        return redirect(
+            url_for("login")
+        )
+
+
+    # --------------------------------------------------------
+    # DELETE
+    # --------------------------------------------------------
 
     success, error = delete_post(
         db=db,
@@ -257,8 +442,13 @@ def delete_community_post(post_id):
         user_id=session["user_id"]
     )
 
+
     if not success:
-        flash(error, "danger")
+
+        flash(
+            error,
+            "danger"
+        )
 
         return redirect(
             url_for(
@@ -266,6 +456,7 @@ def delete_community_post(post_id):
                 post_id=post_id
             )
         )
+
 
     flash(
         "Post deleted successfully.",
@@ -283,18 +474,30 @@ def delete_community_post(post_id):
 # MY POSTS
 # ============================================================
 
-@community_bp.route("/my-posts", methods=["GET"])
+@community_bp.route(
+    "/my-posts",
+    methods=["GET"]
+)
 def my_posts():
 
     if "user_id" not in session:
-        flash("Please login first.", "warning")
-        return redirect(url_for("login"))
+
+        flash(
+            "Please login first.",
+            "warning"
+        )
+
+        return redirect(
+            url_for("login")
+        )
+
 
     posts = CommunityPost.query.filter_by(
         user_id=session["user_id"]
     ).order_by(
         CommunityPost.created_at.desc()
     ).all()
+
 
     return render_template(
         "community/my_posts.html",

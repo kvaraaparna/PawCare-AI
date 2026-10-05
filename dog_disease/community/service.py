@@ -12,12 +12,21 @@ from .models import (
 # CREATE POST
 # ============================================================
 
-def create_post(user_id, content, image_url=None):
+def create_post(
+    user_id,
+    title,
+    content,
+    category
+):
+    """
+    Create a new community discussion post.
+    """
 
     post = CommunityPost(
         user_id=user_id,
-        content=content,
-        image_url=image_url
+        title=title.strip(),
+        content=content.strip(),
+        category=category.strip()
     )
 
     db.session.add(post)
@@ -47,6 +56,47 @@ def get_post_by_id(post_id):
 
 
 # ============================================================
+# GET POSTS BY CATEGORY
+# ============================================================
+
+def get_posts_by_category(category):
+
+    return CommunityPost.query.filter_by(
+        category=category
+    ).order_by(
+        CommunityPost.created_at.desc()
+    ).all()
+
+
+# ============================================================
+# SEARCH POSTS
+# ============================================================
+
+def search_posts(search_term):
+
+    search_term = search_term.strip()
+
+    if not search_term:
+        return get_all_posts()
+
+    return CommunityPost.query.filter(
+        db.or_(
+            CommunityPost.title.ilike(
+                f"%{search_term}%"
+            ),
+            CommunityPost.content.ilike(
+                f"%{search_term}%"
+            ),
+            CommunityPost.category.ilike(
+                f"%{search_term}%"
+            )
+        )
+    ).order_by(
+        CommunityPost.created_at.desc()
+    ).all()
+
+
+# ============================================================
 # ADD COMMENT
 # ============================================================
 
@@ -59,13 +109,26 @@ def add_comment(
     comment = CommunityComment(
         post_id=post_id,
         user_id=user_id,
-        content=content
+        content=content.strip()
     )
 
     db.session.add(comment)
     db.session.commit()
 
     return comment
+
+
+# ============================================================
+# GET COMMENTS
+# ============================================================
+
+def get_comments(post_id):
+
+    return CommunityComment.query.filter_by(
+        post_id=post_id
+    ).order_by(
+        CommunityComment.created_at.asc()
+    ).all()
 
 
 # ============================================================
@@ -109,62 +172,41 @@ def toggle_like(
 
 
 # ============================================================
+# GET LIKE COUNT
+# ============================================================
+
+def get_like_count(post_id):
+
+    return CommunityLike.query.filter_by(
+        post_id=post_id
+    ).count()
+
+
+# ============================================================
 # REPORT POST
 # ============================================================
 
 def report_post(
     post_id,
     user_id,
-    reason
+    reason,
+    description=None
 ):
 
     report = CommunityReport(
         post_id=post_id,
         user_id=user_id,
-        reason=reason
+        reason=reason.strip(),
+        description=description.strip()
+        if description
+        else None,
+        status="pending"
     )
 
     db.session.add(report)
     db.session.commit()
 
     return report
-# ============================================================
-# GET POSTS BY CATEGORY
-# ============================================================
-
-def get_posts_by_category(category):
-    """
-    Return posts belonging to a specific category.
-    """
-
-    return CommunityPost.query.filter_by(
-        category=category
-    ).order_by(
-        CommunityPost.created_at.desc()
-    ).all()
-
-
-# ============================================================
-# SEARCH POSTS
-# ============================================================
-
-def search_posts(search_term):
-    """
-    Search posts by their content.
-    """
-
-    search_term = search_term.strip()
-
-    if not search_term:
-        return get_all_posts()
-
-    return CommunityPost.query.filter(
-        CommunityPost.content.ilike(
-            f"%{search_term}%"
-        )
-    ).order_by(
-        CommunityPost.created_at.desc()
-    ).all()
 
 
 # ============================================================
@@ -174,36 +216,35 @@ def search_posts(search_term):
 def update_post(
     post_id,
     user_id,
+    title,
     content,
-    category=None
+    category
 ):
-    """
-    Update a post.
-    Only the post owner can update it.
-    """
 
     post = CommunityPost.query.get(post_id)
 
     if post is None:
-        return None
+        return None, "Post not found."
 
-    # Security check
     if post.user_id != user_id:
-        return None
+        return None, "You are not authorized to edit this post."
 
-    content = content.strip()
+    if not title.strip():
+        return None, "Title is required."
 
-    if not content:
-        return None
+    if not content.strip():
+        return None, "Content is required."
 
-    post.content = content
+    if not category.strip():
+        return None, "Category is required."
 
-    if category is not None:
-        post.category = category.strip()
+    post.title = title.strip()
+    post.content = content.strip()
+    post.category = category.strip()
 
     db.session.commit()
 
-    return post
+    return post, None
 
 
 # ============================================================
@@ -214,22 +255,17 @@ def delete_post(
     post_id,
     user_id
 ):
-    """
-    Delete a post.
-    Only the post owner can delete it.
-    """
 
     post = CommunityPost.query.get(post_id)
 
     if post is None:
-        return False
+        return False, "Post not found."
 
-    # Security check
     if post.user_id != user_id:
-        return False
+        return False, "You are not authorized to delete this post."
 
     db.session.delete(post)
 
     db.session.commit()
 
-    return True
+    return True, None

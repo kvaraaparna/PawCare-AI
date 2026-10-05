@@ -41,7 +41,16 @@ from flask import (
     send_from_directory,
     session,
     url_for,
+
+
 )
+from community.routes import community_bp
+from community.api import community_api
+
+
+
+
+
 from PIL import Image, UnidentifiedImageError
 from torch import nn
 from torchvision import models, transforms
@@ -58,12 +67,6 @@ from utils.pdf_report import generate_health_report
 
 
 
-# Community routes
-from community import (
-    community_bp,
-    comment_bp,
-    community_api
-)
 # -----------------------------------------------------------------------------
 # Logging Configuration
 # -----------------------------------------------------------------------------
@@ -205,6 +208,7 @@ logger.info(f"Hardware compute device selected: {device}")
 # 1. Disease Classification Model (ResNet18)
 disease_model = models.resnet18(weights=None)
 disease_model.fc = nn.Linear(disease_model.fc.in_features, len(CLASSES))
+
 
 if os.path.exists(MODEL_PATH):
     try:
@@ -1158,6 +1162,7 @@ def get_training_status():
     with training_lock:
         return jsonify(training_state), 200
 
+
 # -----------------------------------------------------------------------------
 # Error Handlers
 # -----------------------------------------------------------------------------
@@ -1191,10 +1196,6 @@ def chatbot():
 
 app.register_blueprint(
     community_bp
-)
-
-app.register_blueprint(
-    comment_bp
 )
 
 app.register_blueprint(
