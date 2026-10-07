@@ -1,2150 +1,418 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>PawCare AI - Community</title>
 
-    <style>
-
-        /* =========================================================
-           RESET
-        ========================================================= */
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-            background: #ffffff;
-            color: #303b36;
-            line-height: 1.6;
-        }
-
-
-        /* =========================================================
-           NAVBAR
-        ========================================================= */
-
-        .navbar {
-            width: 100%;
-            height: 76px;
-
-            background: #ffffff;
-
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-
-            padding: 0 7%;
-
-            border-bottom: 1px solid #eeeeee;
-
-            position: sticky;
-            top: 0;
-
-            z-index: 1000;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-
-            gap: 8px;
-
-            color: #26332d;
-
-            font-size: 21px;
-            font-weight: 700;
-
-            text-decoration: none;
-        }
-
-        .logo-icon {
-            font-size: 24px;
-        }
-
-        .nav-links {
-            display: flex;
-            align-items: center;
-
-            gap: 30px;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-
-            color: #4a514e;
-
-            font-size: 14px;
-            font-weight: 500;
-
-            transition: 0.25s;
-        }
-
-        .nav-links a:hover {
-            color: #4b9b7d;
-        }
-
-        .nav-links a.active {
-            color: #4b9b7d;
-            font-weight: 600;
-        }
-
-
-        /* =========================================================
-           MAIN CONTAINER
-        ========================================================= */
-
-        .container {
-            width: 86%;
-            max-width: 1100px;
-
-            margin: 55px auto 80px;
-        }
-
-
-        /* =========================================================
-           HEADER
-        ========================================================= */
-
-        .community-header {
-            display: flex;
-
-            align-items: center;
-            justify-content: space-between;
-
-            gap: 30px;
-
-            margin-bottom: 32px;
-        }
-
-        .community-header h1 {
-            color: #26332d;
-
-            font-size: 36px;
-            font-weight: 600;
-
-            margin-bottom: 8px;
-        }
-
-        .community-header p {
-            color: #747c78;
-
-            font-size: 15px;
-
-            max-width: 650px;
-        }
-
-
-        /* =========================================================
-           BUTTONS
-        ========================================================= */
-
-        .create-btn {
-            border: none;
-
-            border-radius: 30px;
-
-            background: #4b9b7d;
-
-            color: #ffffff;
-
-            padding: 13px 22px;
-
-            font-size: 14px;
-            font-weight: 600;
-
-            cursor: pointer;
-
-            white-space: nowrap;
-
-            transition: 0.25s;
-        }
-
-        .create-btn:hover {
-            background: #398568;
-
-            transform: translateY(-1px);
-
-            box-shadow:
-                0 7px 18px
-                rgba(75, 155, 125, 0.18);
-        }
-
-        .create-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-
-        .cancel-btn {
-            border: 1px solid #dce3df;
-
-            background: #ffffff;
-
-            color: #59625e;
-
-            border-radius: 25px;
-
-            padding: 11px 19px;
-
-            cursor: pointer;
-        }
-
-
-        /* =========================================================
-           DISEASE INFORMATION
-        ========================================================= */
-
-        .disease-info {
-            background: #f7faf8;
-
-            border: 1px solid #e4eee9;
-
-            border-radius: 18px;
-
-            padding: 24px 26px;
-
-            margin-bottom: 30px;
-        }
-
-        .disease-info h2 {
-            color: #2c3832;
-
-            font-size: 21px;
-            font-weight: 600;
-
-            margin-bottom: 6px;
-        }
-
-        .disease-info p {
-            color: #747c78;
-
-            font-size: 14px;
-
-            margin-bottom: 17px;
-        }
-
-        .disease-tags {
-            display: flex;
-
-            flex-wrap: wrap;
-
-            gap: 10px;
-        }
-
-        .disease-tag {
-            background: #ffffff;
-
-            border: 1px solid #dce9e3;
-
-            color: #4b806b;
-
-            padding: 8px 14px;
-
-            border-radius: 25px;
-
-            font-size: 13px;
-            font-weight: 600;
-        }
-
-
-        /* =========================================================
-           CREATE POST FORM
-        ========================================================= */
-
-        .post-form {
-            display: none;
-
-            background: #ffffff;
-
-            border: 1px solid #e3e9e5;
-
-            border-radius: 18px;
-
-            padding: 26px;
-
-            margin-bottom: 30px;
-
-            box-shadow:
-                0 8px 25px
-                rgba(40, 70, 55, 0.06);
-        }
-
-        .post-form.show {
-            display: block;
-        }
-
-        .post-form h2 {
-            color: #29362f;
-
-            font-size: 22px;
-            font-weight: 600;
-
-            margin-bottom: 20px;
-        }
-
-        .form-group {
-            margin-bottom: 17px;
-        }
-
-        .form-group label {
-            display: block;
-
-            color: #3b4741;
-
-            font-size: 14px;
-            font-weight: 600;
-
-            margin-bottom: 7px;
-        }
-
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-
-            width: 100%;
-
-            padding: 12px 14px;
-
-            border: 1px solid #dce3df;
-
-            border-radius: 10px;
-
-            background: #ffffff;
-
-            color: #354039;
-
-            font-size: 14px;
-
-            outline: none;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-
-            border-color: #4b9b7d;
-
-            box-shadow:
-                0 0 0 3px
-                rgba(75, 155, 125, 0.08);
-        }
-
-        .form-group textarea {
-
-            min-height: 130px;
-
-            resize: vertical;
-        }
-
-        .form-buttons {
-
-            display: flex;
-
-            justify-content: flex-end;
-
-            gap: 10px;
-
-            margin-top: 10px;
-        }
-
-
-        /* =========================================================
-           SECTION TITLE
-        ========================================================= */
-
-        .section-title {
-
-            color: #29362f;
-
-            font-size: 23px;
-            font-weight: 600;
-
-            margin-bottom: 18px;
-        }
-
-
-        /* =========================================================
-           POSTS
-        ========================================================= */
-
-        .posts {
-
-            display: flex;
-
-            flex-direction: column;
-
-            gap: 18px;
-        }
-
-        .post-card {
-
-            background: #ffffff;
-
-            border: 1px solid #e6ebe8;
-
-            border-radius: 16px;
-
-            padding: 24px;
-
-            transition: 0.25s;
-        }
-
-        .post-card:hover {
-
-            border-color: #d3e3dc;
-
-            box-shadow:
-                0 8px 25px
-                rgba(45, 75, 60, 0.06);
-        }
-
-
-        /* =========================================================
-           POST HEADER
-        ========================================================= */
-
-        .post-top {
-
-            display: flex;
-
-            align-items: flex-start;
-
-            justify-content: space-between;
-
-            gap: 15px;
-
-            margin-bottom: 14px;
-        }
-
-        .user-info {
-
-            display: flex;
-
-            align-items: center;
-
-            gap: 10px;
-        }
-
-        .avatar {
-
-            width: 42px;
-            height: 42px;
-
-            border-radius: 50%;
-
-            background: #edf6f1;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            font-size: 20px;
-        }
-
-        .username {
-
-            color: #29362f;
-
-            font-size: 14px;
-
-            font-weight: 600;
-        }
-
-        .post-date {
-
-            color: #89918d;
-
-            font-size: 12px;
-        }
-
-
-        /* =========================================================
-           CATEGORY
-        ========================================================= */
-
-        .category-badge {
-
-            background: #edf7f2;
-
-            color: #4b806b;
-
-            border: 1px solid #d9ebe2;
-
-            border-radius: 20px;
-
-            padding: 6px 11px;
-
-            font-size: 12px;
-
-            font-weight: 600;
-
-            white-space: nowrap;
-        }
-
-
-        /* =========================================================
-           POST CONTENT
-        ========================================================= */
-
-        .post-title {
-
-            color: #29362f;
-
-            font-size: 19px;
-
-            font-weight: 600;
-
-            margin-bottom: 8px;
-        }
-
-        .post-content {
-
-            color: #5f6864;
-
-            font-size: 14px;
-
-            white-space: pre-wrap;
-
-            word-break: break-word;
-
-            margin-bottom: 18px;
-        }
-
-
-        /* =========================================================
-           POST FOOTER
-        ========================================================= */
-
-        .post-footer {
-
-            display: flex;
-
-            align-items: center;
-
-            gap: 10px;
-
-            padding-top: 14px;
-
-            border-top: 1px solid #eef1ef;
-        }
-
-        .reaction-btn {
-
-            border: 1px solid #dce5e0;
-
-            background: #ffffff;
-
-            color: #59625e;
-
-            border-radius: 22px;
-
-            padding: 8px 14px;
-
-            cursor: pointer;
-
-            font-size: 13px;
-
-            transition: 0.2s;
-        }
-
-        .reaction-btn:hover {
-
-            border-color: #4b9b7d;
-
-            color: #4b9b7d;
-
-            background: #f7faf8;
-        }
-
-        .reaction-btn.liked {
-
-            background: #edf7f2;
-
-            color: #398568;
-
-            border-color: #9bcab7;
-        }
-
-
-        /* =========================================================
-           EMPTY STATE
-        ========================================================= */
-
-        .empty-state {
-
-            text-align: center;
-
-            padding: 50px 20px;
-
-            background: #f9fbfa;
-
-            border: 1px dashed #dce6e1;
-
-            border-radius: 16px;
-        }
-
-        .empty-icon {
-
-            font-size: 45px;
-
-            margin-bottom: 10px;
-        }
-
-        .empty-state h3 {
-
-            color: #354039;
-
-            margin-bottom: 6px;
-        }
-
-        .empty-state p {
-
-            color: #808984;
-
-            font-size: 14px;
-        }
-
-
-        /* =========================================================
-           LOADING
-        ========================================================= */
-
-        .loading {
-
-            text-align: center;
-
-            padding: 35px;
-
-            color: #737d78;
-
-            font-size: 14px;
-        }
-
-
-        /* =========================================================
-           ERROR
-        ========================================================= */
-
-        .error-box {
-
-            padding: 18px;
-
-            border-radius: 12px;
-
-            background: #fff5f5;
-
-            border: 1px solid #f1cccc;
-
-            color: #a33b3b;
-
-            font-size: 14px;
-        }
-
-
-        /* =========================================================
-           TOAST
-        ========================================================= */
-
-        .toast {
-
-            position: fixed;
-
-            bottom: 25px;
-
-            right: 25px;
-
-            min-width: 250px;
-
-            max-width: 380px;
-
-            padding: 14px 18px;
-
-            border-radius: 10px;
-
-            background: #29362f;
-
-            color: #ffffff;
-
-            font-size: 14px;
-
-            box-shadow:
-                0 10px 30px
-                rgba(0,0,0,0.15);
-
-            opacity: 0;
-
-            pointer-events: none;
-
-            transform: translateY(20px);
-
-            transition: 0.3s;
-
-            z-index: 9999;
-        }
-
-        .toast.show {
-
-            opacity: 1;
-
-            pointer-events: auto;
-
-            transform: translateY(0);
-        }
-
-        .toast.success {
-            background: #398568;
-        }
-
-        .toast.error {
-            background: #a33b3b;
-        }
-
-
-        /* =========================================================
-           MOBILE
-        ========================================================= */
-
-        @media (max-width: 700px) {
-
-            .navbar {
-
-                padding: 0 5%;
-
-                height: auto;
-
-                min-height: 70px;
-
-                flex-direction: column;
-
-                gap: 10px;
-
-                padding-top: 12px;
-
-                padding-bottom: 12px;
-            }
-
-            .nav-links {
-
-                gap: 15px;
-
-                flex-wrap: wrap;
-
-                justify-content: center;
-            }
-
-            .container {
-
-                width: 92%;
-
-                margin-top: 35px;
-            }
-
-            .community-header {
-
-                flex-direction: column;
-
-                align-items: flex-start;
-            }
-
-            .community-header h1 {
-
-                font-size: 28px;
-            }
-
-            .community-header .create-btn {
-
-                width: 100%;
-            }
-
-            .post-top {
-
-                flex-direction: column;
-            }
-
-            .post-footer {
-
-                flex-wrap: wrap;
-            }
-
-            .form-buttons {
-
-                flex-direction: column;
-            }
-
-            .form-buttons button {
-
-                width: 100%;
-            }
-
-            .toast {
-
-                left: 15px;
-
-                right: 15px;
-
-                bottom: 15px;
-
-                min-width: auto;
-            }
-        }
-
-    </style>
-
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <!-- Community CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/community.css') }}">
 </head>
-
 
 <body>
 
+<!-- =====================================================
+     NAVBAR
+===================================================== -->
 
-    <!-- =========================================================
-         NAVBAR
-    ========================================================== -->
+<header class="navbar">
 
-    <nav class="navbar">
+    <div class="logo-section">
 
-        <a href="/" class="logo">
-
-            <span class="logo-icon">🐾</span>
-
-            <span>PawCare AI</span>
-
-        </a>
-
-
-        <div class="nav-links">
-
-            <a href="/">
-                Home
-            </a>
-
-            <a href="/detect">
-                Detect Disease
-            </a>
-
-            <a href="/profile">
-                Profile
-            </a>
-
-            <a href="/community/"
-               class="active">
-                Community
-            </a>
-
+        <div class="paw-logo">
+            <i class="fa-solid fa-paw"></i>
         </div>
 
-    </nav>
-
-
-
-    <!-- =========================================================
-         MAIN
-    ========================================================== -->
-
-    <main class="container">
-
-
-        <!-- =====================================================
-             COMMUNITY HEADER
-        ====================================================== -->
-
-        <section class="community-header">
-
-            <div>
-
-                <h1>
-                    🐾 PawCare Community
-                </h1>
-
-                <p>
-                    Connect with other dog owners and share
-                    experiences, questions and observations
-                    about your dog's skin health.
-                </p>
-
-            </div>
-
-
-            <button
-                type="button"
-                class="create-btn"
-                onclick="togglePostForm()">
-
-                + Start Discussion
-
-            </button>
-
-        </section>
-
-
-
-        <!-- =====================================================
-             DISEASE INFORMATION
-        ====================================================== -->
-
-        <section class="disease-info">
-
-            <h2>
-                🐶 Dog Skin Health Community
-            </h2>
-
-            <p>
-                Discussions are focused on the four
-                skin-condition classes used by PawCare AI.
-            </p>
-
-
-            <div class="disease-tags">
-
-                <span class="disease-tag">
-                    🦠 Bacterial Dermatosis
-                </span>
-
-                <span class="disease-tag">
-                    🌼 Hypersensitivity / Allergic
-                </span>
-
-                <span class="disease-tag">
-                    🍄 Fungal Infection
-                </span>
-
-                <span class="disease-tag">
-                    💚 Healthy
-                </span>
-
-            </div>
-
-        </section>
-
-
-
-        <!-- =====================================================
-             CREATE DISCUSSION FORM
-        ====================================================== -->
-
-        <section
-            id="postForm"
-            class="post-form">
-
-            <h2>
-                Start a Discussion
-            </h2>
-
-
-            <div class="form-group">
-
-                <label for="disease">
-                    Skin Condition
-                </label>
-
-                <select id="disease">
-
-                    <option value="">
-                        Select a condition
-                    </option>
-
-                    <option value="Bacterial_dermatosis">
-                        Bacterial Dermatosis
-                    </option>
-
-                    <option value="Fungal_infections">
-                        Fungal Infections
-                    </option>
-
-                    <option value="Hypersensitivity_allergic_dermatosis">
-                        Hypersensitivity / Allergic Dermatosis
-                    </option>
-
-                    <option value="Healthy">
-                        Healthy
-                    </option>
-
-                </select>
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label for="postTitle">
-                    Discussion Title
-                </label>
-
-                <input
-                    type="text"
-                    id="postTitle"
-                    maxlength="100"
-                    placeholder="Example: My dog has itchy skin..."
-                >
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label for="postContent">
-                    Your Message
-                </label>
-
-                <textarea
-                    id="postContent"
-                    placeholder="Describe your dog's condition, experience or question..."
-                ></textarea>
-
-            </div>
-
-
-            <div class="form-buttons">
-
-                <button
-                    type="button"
-                    class="cancel-btn"
-                    onclick="togglePostForm()">
-
-                    Cancel
-
-                </button>
-
-
-                <button
-                    type="button"
-                    id="publishButton"
-                    class="create-btn"
-                    onclick="createPost()">
-
-                    Publish Discussion
-
-                </button>
-
-            </div>
-
-        </section>
-
-
-
-        <!-- =====================================================
-             DISCUSSIONS
-        ====================================================== -->
-
-        <h2 class="section-title">
-
-            Recent Discussions
-
-        </h2>
-
-
-        <section
-            id="posts"
-            class="posts">
-
-            <div class="loading">
-
-                Loading discussions...
-
-            </div>
-
-        </section>
-
-
-    </main>
-
-
-
-    <!-- =========================================================
-         TOAST
-    ========================================================== -->
-
-    <div
-        id="toast"
-        class="toast">
+        <div class="logo-text">
+            <h2>PawCare <span>AI</span></h2>
+            <p>Healthy Pets, Happier Lives</p>
+        </div>
 
     </div>
 
 
+    <nav class="navigation">
 
-    <!-- =========================================================
-         JAVASCRIPT
-    ========================================================== -->
+        <a href="/">Home</a>
 
-    <script>
+        <a href="/detect">Detect Disease</a>
 
-        "use strict";
+        <a href="{{ url_for('community') }}" data-i18n="nav.community">
+        Community
+        </a>
 
+        <a href="{{ url_for('chatbot') }}" data-i18n="nav.chatbot">
+        Chat with our AI
+        </a>
 
-        /* =========================================================
-           API URLS
+    </nav>
 
-           IMPORTANT:
-           These are intentionally written directly instead of
-           url_for() so we do not get the previous BuildError.
-        ========================================================== */
 
-        const COMMUNITY_HOME = "/community/";
+    <div class="profile">
 
-        const CREATE_POST_URL = "/community/create";
+        <div class="profile-icon">
+            <i class="fa-solid fa-user"></i>
+        </div>
 
-        const GET_POSTS_URL = "/api/community/posts";
+        <span>user</span>
 
-        const LIKE_URL_BASE = "/api/community/post/";
+        <i class="fa-solid fa-chevron-down"></i>
 
+    </div>
 
-        /* =========================================================
-           ELEMENTS
-        ========================================================== */
+</header>
 
-        const postForm =
-            document.getElementById("postForm");
 
-        const diseaseSelect =
-            document.getElementById("disease");
+<!-- =====================================================
+     MAIN
+===================================================== -->
 
-        const postTitle =
-            document.getElementById("postTitle");
+<main class="main-container">
 
-        const postContent =
-            document.getElementById("postContent");
 
-        const postsContainer =
-            document.getElementById("posts");
+    <!-- =================================================
+         COMMUNITY HEADER
+    ================================================== -->
 
-        const toast =
-            document.getElementById("toast");
+    <section class="community-header">
 
-        const publishButton =
-            document.getElementById("publishButton");
+        <div class="header-content">
 
+            <h1>Community</h1>
 
-        /* =========================================================
-           TOAST
-        ========================================================== */
+            <p>
+                Share your pet's health concerns and get suggestions
+                from fellow pet lovers.
+            </p>
 
-        function showToast(message, type = "success") {
+        </div>
 
-            if (!toast) {
 
-                alert(message);
+        <div class="header-dog">
 
-                return;
-            }
+            <div class="dog-circle"></div>
 
-            toast.textContent = message;
+            <!-- You can replace this with your dog image -->
+            <span class="dog-emoji">🐕</span>
 
-            toast.className =
-                "toast show " + type;
+        </div>
 
-            setTimeout(function () {
+    </section>
 
-                toast.className = "toast";
 
-            }, 3500);
-        }
 
+    <!-- =================================================
+         CREATE POST
+    ================================================== -->
 
-        /* =========================================================
-           ESCAPE HTML
+    <section class="create-post-card">
 
-           Prevents user-entered content from becoming HTML.
-        ========================================================== */
+        <div class="create-title">
 
-        function escapeHTML(value) {
+            <div class="user-avatar">
+                <i class="fa-solid fa-user"></i>
+            </div>
 
-            if (value === null ||
-                value === undefined) {
+            <h2>Create a Post</h2>
 
-                return "";
-            }
+        </div>
 
-            return String(value)
-                .replace(/&/g, "&amp;")
-                .replace(/</g, "&lt;")
-                .replace(/>/g, "&gt;")
-                .replace(/"/g, "&quot;")
-                .replace(/'/g, "&#039;");
-        }
 
+        <div class="create-content">
 
-        /* =========================================================
-           FORMAT DATE
-        ========================================================== */
 
-        function formatDate(dateValue) {
+            <!-- IMAGE UPLOAD -->
 
-            if (!dateValue) {
+            <div class="image-upload">
 
-                return "Just now";
-            }
+                <input
+                    type="file"
+                    id="dogImage"
+                    accept="image/*"
+                    hidden
+                >
 
-            const date =
-                new Date(dateValue);
+                <label for="dogImage" class="upload-box">
 
-            if (Number.isNaN(date.getTime())) {
+                    <div id="uploadPreview">
 
-                return "Recently";
-            }
+                        <i class="fa-regular fa-image"></i>
 
-            return date.toLocaleString(
-                [],
-                {
-                    year: "numeric",
-                    month: "short",
-                    day: "numeric",
-                    hour: "2-digit",
-                    minute: "2-digit"
-                }
-            );
-        }
+                        <p>Upload Image</p>
 
+                        <span>of your dog</span>
 
-        /* =========================================================
-           TOGGLE POST FORM
+                    </div>
 
-           IMPORTANT:
-           Attached to window because the button uses
-           onclick="togglePostForm()".
-        ========================================================== */
+                </label>
 
-        window.togglePostForm = function () {
+            </div>
 
-            if (!postForm) {
 
-                console.error(
-                    "postForm element not found."
-                );
 
-                return;
-            }
+            <!-- POST FORM -->
 
+            <div class="post-form">
 
-            postForm.classList.toggle("show");
 
+                <!-- Disease -->
 
-            if (postForm.classList.contains("show")) {
+                <input
+                    type="text"
+                    id="diseaseName"
+                    placeholder="Disease Name (e.g., Fungal Infection)"
+                >
 
-                setTimeout(function () {
 
-                    if (diseaseSelect) {
+                <!-- Symptoms -->
 
-                        diseaseSelect.focus();
-                    }
+                <textarea
+                    id="symptoms"
+                    placeholder="Describe the symptoms (e.g., red patches, itching, hair loss...)"
+                ></textarea>
 
-                }, 100);
 
-            }
+                <!-- Suggestion -->
 
-        };
+                <textarea
+                    id="suggestion"
+                    placeholder="Your question or suggestion (e.g., what treatment can I follow?)"
+                ></textarea>
 
 
-        /* =========================================================
-           CLEAR FORM
-        ========================================================== */
+                <!-- Publish -->
 
-        function clearPostForm() {
+                <button
+                    type="button"
+                    id="publishBtn"
+                    class="publish-btn"
+                >
 
-            if (diseaseSelect) {
+                    <i class="fa-solid fa-paper-plane"></i>
 
-                diseaseSelect.value = "";
-            }
+                    Publish
 
-            if (postTitle) {
+                </button>
 
-                postTitle.value = "";
-            }
+            </div>
 
-            if (postContent) {
+        </div>
 
-                postContent.value = "";
-            }
-        }
+    </section>
 
 
-        /* =========================================================
-           CREATE POST
 
-           IMPORTANT:
+    <!-- =================================================
+         POSTS
+    ================================================== -->
 
-           routes.py uses:
+    <section id="postsContainer">
 
-               request.form.get("title")
-               request.form.get("content")
-               request.form.get("category")
 
-           Therefore we use FormData instead of JSON.
-        ========================================================== */
+        <!-- =================================================
+             SAMPLE POST
+        ================================================== -->
 
-        window.createPost = async function () {
+        <article class="post-card">
 
-            console.log(
-                "Publish Discussion clicked"
-            );
 
+            <!-- USER -->
 
-            const disease =
-                diseaseSelect.value.trim();
+            <div class="post-user">
 
-            const title =
-                postTitle.value.trim();
+                <div class="post-avatar">
+                    <i class="fa-solid fa-user"></i>
+                </div>
 
-            const content =
-                postContent.value.trim();
+                <div>
 
+                    <h3>Priya</h3>
 
-            /* -----------------------------------------------------
-               VALIDATION
-            ----------------------------------------------------- */
-
-            if (!disease) {
-
-                showToast(
-                    "Please select a skin condition.",
-                    "error"
-                );
-
-                diseaseSelect.focus();
-
-                return;
-            }
-
-
-            if (!title) {
-
-                showToast(
-                    "Please enter a discussion title.",
-                    "error"
-                );
-
-                postTitle.focus();
-
-                return;
-            }
-
-
-            if (title.length < 3) {
-
-                showToast(
-                    "Title must contain at least 3 characters.",
-                    "error"
-                );
-
-                postTitle.focus();
-
-                return;
-            }
-
-
-            if (!content) {
-
-                showToast(
-                    "Please enter your message.",
-                    "error"
-                );
-
-                postContent.focus();
-
-                return;
-            }
-
-
-            if (content.length < 5) {
-
-                showToast(
-                    "Message is too short.",
-                    "error"
-                );
-
-                postContent.focus();
-
-                return;
-            }
-
-
-            /* -----------------------------------------------------
-               DISABLE BUTTON
-            ----------------------------------------------------- */
-
-            publishButton.disabled = true;
-
-            publishButton.textContent =
-                "Publishing...";
-
-
-            try {
-
-                /* -------------------------------------------------
-                   FormData
-
-                   This matches request.form in routes.py.
-                ------------------------------------------------- */
-
-                const formData =
-                    new FormData();
-
-                formData.append(
-                    "title",
-                    title
-                );
-
-                formData.append(
-                    "content",
-                    content
-                );
-
-                formData.append(
-                    "category",
-                    disease
-                );
-
-
-                /* -------------------------------------------------
-                   SEND TO FLASK
-                ------------------------------------------------- */
-
-                const response =
-                    await fetch(
-                        CREATE_POST_URL,
-                        {
-                            method: "POST",
-
-                            body: formData,
-
-                            credentials: "same-origin"
-                        }
-                    );
-
-
-                console.log(
-                    "Create post response:",
-                    response.status,
-                    response.url
-                );
-
-
-                /* -------------------------------------------------
-                   LOGIN REDIRECT
-
-                   If the user is not logged in, routes.py
-                   redirects to the login page.
-                ------------------------------------------------- */
-
-                if (
-                    response.url &&
-                    response.url.toLowerCase()
-                        .includes("login")
-                ) {
-
-                    window.location.href =
-                        response.url;
-
-                    return;
-                }
-
-
-                /* -------------------------------------------------
-                   SERVER ERROR
-                ------------------------------------------------- */
-
-                if (!response.ok) {
-
-                    throw new Error(
-                        "Server returned HTTP " +
-                        response.status
-                    );
-                }
-
-
-                /* -------------------------------------------------
-                   SUCCESS
-
-                   routes.py redirects after creating the post.
-
-                   We intentionally return to Community so the
-                   new post becomes visible in the Recent
-                   Discussions list.
-                ------------------------------------------------- */
-
-                showToast(
-                    "Discussion published successfully!",
-                    "success"
-                );
-
-
-                clearPostForm();
-
-
-                postForm.classList.remove(
-                    "show"
-                );
-
-
-                /*
-                 * Give the toast a moment to appear,
-                 * then reload the community posts.
-                 */
-
-                setTimeout(function () {
-
-                    window.location.href =
-                        COMMUNITY_HOME;
-
-                }, 700);
-
-
-            }
-
-            catch (error) {
-
-                console.error(
-                    "CREATE POST ERROR:",
-                    error
-                );
-
-
-                showToast(
-                    "Unable to publish the discussion. Please check the server.",
-                    "error"
-                );
-
-            }
-
-            finally {
-
-                publishButton.disabled =
-                    false;
-
-                publishButton.textContent =
-                    "Publish Discussion";
-            }
-
-        };
-
-
-        /* =========================================================
-           LOAD ALL POSTS
-        ========================================================== */
-
-        async function loadPosts() {
-
-            console.log(
-                "Loading community posts..."
-            );
-
-
-            if (!postsContainer) {
-
-                console.error(
-                    "Posts container not found."
-                );
-
-                return;
-            }
-
-
-            postsContainer.innerHTML = `
-
-                <div class="loading">
-
-                    Loading discussions...
+                    <span>2 hours ago</span>
 
                 </div>
 
-            `;
+            </div>
 
 
-            try {
+            <!-- POST BODY -->
 
-                const response =
-                    await fetch(
-                        GET_POSTS_URL,
-                        {
-                            method: "GET",
+            <div class="post-body">
 
-                            credentials: "same-origin",
 
-                            cache: "no-store"
-                        }
-                    );
+                <!-- IMAGE -->
 
+                <div class="post-image">
 
-                console.log(
-                    "GET posts response:",
-                    response.status
-                );
+                    <img
+                        src="https://images.unsplash.com/photo-1558788353-f76d92427f16?auto=format&fit=crop&w=700&q=80"
+                        alt="Dog"
+                    >
 
+                </div>
 
-                if (!response.ok) {
 
-                    throw new Error(
-                        "HTTP " +
-                        response.status
-                    );
-                }
+                <!-- INFORMATION -->
 
+                <div class="post-information">
 
-                const result =
-                    await response.json();
-
-
-                console.log(
-                    "Posts API result:",
-                    result
-                );
-
-
-                if (!result.success) {
-
-                    throw new Error(
-                        result.message ||
-                        "Unable to load posts."
-                    );
-                }
-
-
-                renderPosts(
-                    result.posts || []
-                );
-
-
-            }
-
-            catch (error) {
-
-                console.error(
-                    "LOAD POSTS ERROR:",
-                    error
-                );
-
-
-                postsContainer.innerHTML = `
-
-                    <div class="error-box">
-
-                        <strong>
-                            Unable to load discussions.
-                        </strong>
-
-                        <br><br>
-
-                        Please make sure the Flask server
-                        and Community API are running.
-
-                    </div>
-
-                `;
-
-            }
-
-        }
-
-
-        /* =========================================================
-           RENDER POSTS
-        ========================================================== */
-
-        function renderPosts(posts) {
-
-            if (!posts ||
-                posts.length === 0) {
-
-                postsContainer.innerHTML = `
-
-                    <div class="empty-state">
-
-                        <div class="empty-icon">
-                            🐾
-                        </div>
-
-                        <h3>
-                            No discussions yet
-                        </h3>
-
-                        <p>
-                            Be the first person to start
-                            a discussion with the PawCare
-                            community.
-                        </p>
-
-                    </div>
-
-                `;
-
-                return;
-            }
-
-
-            postsContainer.innerHTML =
-                posts
-                    .map(function(post) {
-
-                        return createPostHTML(
-                            post
-                        );
-
-                    })
-                    .join("");
-
-
-            /*
-             * Load current like counts.
-             */
-
-            posts.forEach(function(post) {
-
-                loadLikeCount(post.id);
-
-            });
-
-        }
-
-
-        /* =========================================================
-           CREATE POST HTML
-        ========================================================== */
-
-        function createPostHTML(post) {
-
-            const id =
-                Number(post.id);
-
-            const title =
-                escapeHTML(
-                    post.title ||
-                    "Community Discussion"
-                );
-
-            const content =
-                escapeHTML(
-                    post.content || ""
-                );
-
-            const category =
-                escapeHTML(
-                    post.category ||
-                    post.disease ||
-                    "General"
-                );
-
-            const userName =
-                escapeHTML(
-                    post.user_name ||
-                    "User " +
-                    (post.user_id || "")
-                );
-
-            const date =
-                formatDate(
-                    post.created_at
-                );
-
-
-            return `
-
-                <article
-                    class="post-card"
-                    id="post-${id}">
-
-
-                    <!-- POST HEADER -->
-
-                    <div class="post-top">
-
-
-                        <div class="user-info">
-
-                            <div class="avatar">
-                                👤
-                            </div>
-
-                            <div>
-
-                                <div class="username">
-
-                                    ${userName}
-
-                                </div>
-
-                                <div class="post-date">
-
-                                    ${date}
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-
-                        <span
-                            class="category-badge">
-
-                            ${category}
-
-                        </span>
-
-                    </div>
-
-
-
-                    <!-- POST TITLE -->
-
-                    <h3 class="post-title">
-
-                        ${title}
-
+                    <h3>
+                        Disease Name:
+                        <strong>Fungal Infection</strong>
                     </h3>
 
 
+                    <h3>Symptoms:</h3>
 
-                    <!-- POST CONTENT -->
+                    <ul>
 
-                    <div class="post-content">
+                        <li>Red patches on skin</li>
 
-                        ${content}
+                        <li>Itching</li>
+
+                        <li>Hair loss in some areas</li>
+
+                    </ul>
+
+
+                    <h3>My Question:</h3>
+
+                    <p>
+                        What treatment can I follow for this?
+                        Any home care tips?
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- POST ACTIONS -->
+
+            <div class="post-actions">
+
+                <button class="like-btn">
+
+                    <i class="fa-regular fa-heart"></i>
+
+                    <span>5</span>
+
+                </button>
+
+
+                <button class="comment-count">
+
+                    <i class="fa-regular fa-comment"></i>
+
+                    <span>2</span>
+
+                </button>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 RESPONSE
+            ================================================== -->
+
+            <div class="response">
+
+
+                <div class="response-avatar">
+
+                    <i class="fa-solid fa-user"></i>
+
+                </div>
+
+
+                <div class="response-content">
+
+                    <div class="response-header">
+
+                        <strong>Rahul</strong>
+
+                        <span>1 hour ago</span>
 
                     </div>
 
 
+                    <p>
 
-                    <!-- POST REACTIONS -->
+                        <strong>Suggestion:</strong>
 
-                    <div class="post-footer">
+                        This could be related to a fungal infection.
+                        Keep the affected area clean and dry and
+                        consult a veterinarian for the correct
+                        diagnosis and treatment.
 
+                    </p>
 
-                        <button
-                            type="button"
-                            class="reaction-btn"
-                            id="like-btn-${id}"
-                            onclick="toggleLike(${id})">
 
-                            ❤️ Like
-                            <span
-                                id="like-count-${id}">
-                                0
-                            </span>
+                    <button class="response-like">
 
-                        </button>
+                        <i class="fa-regular fa-heart"></i>
 
+                        3
 
-                        <button
-                            type="button"
-                            class="reaction-btn"
-                            onclick="focusPost(${id})">
+                    </button>
 
-                            💬 Discussion
+                </div>
 
-                        </button>
+            </div>
 
 
-                    </div>
 
-                </article>
+            <!-- =================================================
+                 REPLY
+            ================================================== -->
 
-            `;
+            <div class="reply-section">
 
-        }
+                <div class="reply-avatar">
 
+                    <i class="fa-solid fa-user"></i>
 
-        /* =========================================================
-           LOAD LIKE COUNT
-        ========================================================== */
+                </div>
 
-        async function loadLikeCount(postId) {
 
-            try {
+                <input
+                    type="text"
+                    class="reply-input"
+                    placeholder="Write your response or suggestion..."
+                >
 
-                const response =
-                    await fetch(
-                        LIKE_URL_BASE +
-                        postId +
-                        "/likes",
-                        {
-                            method: "GET",
 
-                            credentials: "same-origin",
+                <button class="reply-btn">
 
-                            cache: "no-store"
-                        }
-                    );
+                    Reply
 
+                </button>
 
-                if (!response.ok) {
+            </div>
 
-                    return;
-                }
+        </article>
 
+    </section>
 
-                const result =
-                    await response.json();
+</main>
 
 
-                if (
-                    result.success &&
-                    document.getElementById(
-                        "like-count-" +
-                        postId
-                    )
-                ) {
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
 
-                    document.getElementById(
-                        "like-count-" +
-                        postId
-                    ).textContent =
-                        result.like_count || 0;
-
-                }
-
-            }
-
-            catch (error) {
-
-                console.error(
-                    "LIKE COUNT ERROR:",
-                    error
-                );
-
-            }
-
-        }
-
-
-        /* =========================================================
-           LIKE / UNLIKE POST
-        ========================================================== */
-
-        window.toggleLike = async function(postId) {
-
-            const button =
-                document.getElementById(
-                    "like-btn-" +
-                    postId
-                );
-
-
-            try {
-
-                const response =
-                    await fetch(
-                        LIKE_URL_BASE +
-                        postId +
-                        "/like",
-                        {
-                            method: "POST",
-
-                            credentials: "same-origin",
-
-                            headers: {
-                                "Content-Type":
-                                    "application/json"
-                            },
-
-                            body: JSON.stringify({})
-                        }
-                    );
-
-
-                const result =
-                    await response.json();
-
-
-                console.log(
-                    "LIKE RESULT:",
-                    result
-                );
-
-
-                /* -------------------------------------------------
-                   LOGIN REQUIRED
-                ------------------------------------------------- */
-
-                if (response.status === 401) {
-
-                    showToast(
-                        "Please login to react to a discussion.",
-                        "error"
-                    );
-
-                    return;
-                }
-
-
-                if (!result.success) {
-
-                    showToast(
-                        result.message ||
-                        "Unable to react to this post.",
-                        "error"
-                    );
-
-                    return;
-                }
-
-
-                /* -------------------------------------------------
-                   UPDATE COUNT
-                ------------------------------------------------- */
-
-                const countElement =
-                    document.getElementById(
-                        "like-count-" +
-                        postId
-                    );
-
-
-                if (countElement) {
-
-                    countElement.textContent =
-                        result.like_count || 0;
-
-                }
-
-
-                /* -------------------------------------------------
-                   UPDATE BUTTON
-                ------------------------------------------------- */
-
-                if (button) {
-
-                    if (result.liked) {
-
-                        button.classList.add(
-                            "liked"
-                        );
-
-                        button.innerHTML =
-                            "❤️ Liked " +
-                            "<span id=\"like-count-" +
-                            postId +
-                            "\">" +
-                            (result.like_count || 0) +
-                            "</span>";
-
-                    }
-
-                    else {
-
-                        button.classList.remove(
-                            "liked"
-                        );
-
-                        button.innerHTML =
-                            "❤️ Like " +
-                            "<span id=\"like-count-" +
-                            postId +
-                            "\">" +
-                            (result.like_count || 0) +
-                            "</span>";
-
-                    }
-
-                }
-
-            }
-
-            catch (error) {
-
-                console.error(
-                    "LIKE ERROR:",
-                    error
-                );
-
-
-                showToast(
-                    "Unable to update reaction.",
-                    "error"
-                );
-
-            }
-
-        };
-
-
-        /* =========================================================
-           FOCUS POST
-        ========================================================== */
-
-        window.focusPost = function(postId) {
-
-            const post =
-                document.getElementById(
-                    "post-" +
-                    postId
-                );
-
-
-            if (post) {
-
-                post.scrollIntoView({
-                    behavior: "smooth",
-                    block: "center"
-                });
-
-            }
-
-        };
-
-
-        /* =========================================================
-           ENTER KEY SUPPORT
-
-           Ctrl + Enter = Publish
-        ========================================================== */
-
-        if (postContent) {
-
-            postContent.addEventListener(
-                "keydown",
-                function(event) {
-
-                    if (
-                        event.ctrlKey &&
-                        event.key === "Enter"
-                    ) {
-
-                        event.preventDefault();
-
-                        createPost();
-
-                    }
-
-                }
-            );
-
-        }
-
-
-        /* =========================================================
-           PAGE START
-        ========================================================== */
-
-        document.addEventListener(
-            "DOMContentLoaded",
-            function() {
-
-                console.log(
-                    "PawCare AI Community JavaScript loaded."
-                );
-
-                loadPosts();
-
-            }
-        );
-
-    </script>
-
-
+<script src="{{ url_for('static', filename='js/translations.js') }}"></script>
+<script src="{{ url_for('static', filename='js/community.js') }}"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        initLanguageSelector();
+    });
+</script>
 </body>
-
 </html>

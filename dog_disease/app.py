@@ -65,7 +65,7 @@ from utils.gradcam import generate_gradcam, pil_to_base64
 from utils.grok_analyzer import analyze_canine_condition_with_grok
 from utils.pdf_report import generate_health_report
 
-
+from route.chat_routes import chatbot_bp
 
 # -----------------------------------------------------------------------------
 # Logging Configuration
@@ -864,7 +864,7 @@ def download_report():
     Dynamically generates and downloads the official PawCare AI PDF Health Report.
     Accepts GET with ?id=<analysis_id> or POST with JSON payload.
     """
-    analysis_id = None
+    analysis_id = None 
     json_payload = None
     lang = "en"
 
@@ -1183,17 +1183,25 @@ def not_found(error):
 
 
 
-#============================================================
-#chatbot
-#============================================================
-@app.route("/chatbot")
+# ============================================================
+# CHATBOT
+# ============================================================
+
+@app.route("/dog_chatbot")
 def chatbot():
     return render_template("chatbot.html")
+
+app.register_blueprint(chatbot_bp)
 
 # ============================================================
 # COMMUNITY
 # ============================================================
 
+@app.route("/community")
+def community():
+    return render_template("community.html")
+
+    
 app.register_blueprint(
     community_bp
 )

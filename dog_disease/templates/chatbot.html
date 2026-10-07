@@ -10,133 +10,32 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <meta
-        name="description"
-        content="PawCare AI - Dog health and skin disease information assistant"
-    >
+    <title>PawCare AI - Chatbot</title>
 
-    <title>PawCare AI | Dog Health Assistant</title>
-
-
-    <!-- =====================================================
-         FONT
-         ===================================================== -->
-
-    <link
-        rel="preconnect"
-        href="https://fonts.googleapis.com"
-    >
-
-    <link
-        rel="preconnect"
-        href="https://fonts.gstatic.com"
-        crossorigin
-    >
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap"
-        rel="stylesheet"
-    >
-
-
-    <!-- =====================================================
-         ALL CSS
-         ===================================================== -->
 
     <style>
-
-        /* =====================================================
-           RESET
-           ===================================================== */
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-        }
-
-
-        html {
-            scroll-behavior: smooth;
+            font-family: Arial, Helvetica, sans-serif;
         }
 
 
         body {
-
-            font-family:
-                "DM Sans",
-                Arial,
-                sans-serif;
-
-            color: #202923;
-
-            background: #f5f2e9;
-
-            min-height: 100vh;
-
-            overflow-x: hidden;
+            background: #f5faf7;
+            color: #173b2d;
         }
 
 
-        button,
-        input,
-        textarea {
-            font-family: inherit;
-        }
-
-
-        button {
-            cursor: pointer;
-        }
-
-
-        /* =====================================================
-           COLOR VARIABLES
-           ===================================================== */
-
-        :root {
-
-            --cream: #f5f2e9;
-
-            --cream-light: #faf8f2;
-
-            --white: #ffffff;
-
-            --green: #3f6b55;
-
-            --green-dark: #294b3a;
-
-            --green-light: #e7eee8;
-
-            --green-soft: #edf2ec;
-
-            --sage: #7d927f;
-
-            --text: #202923;
-
-            --text-light: #6d756e;
-
-            --border: #dedfd4;
-
-            --border-green: #d2ddd4;
-
-            --black: #20251f;
-
-            --shadow:
-                0 12px 35px
-                rgba(52, 69, 57, 0.08);
-        }
-
-
-        /* =====================================================
-           NAVBAR
-           ===================================================== */
+        /* ================= NAVBAR ================= */
 
         .navbar {
 
-            height: 76px;
+            height: 70px;
 
-            width: 100%;
+            background: white;
 
             display: flex;
 
@@ -144,28 +43,17 @@
 
             justify-content: space-between;
 
-            padding:
-                0 6%;
+            padding: 0 6%;
 
-            background:
-                rgba(250, 248, 242, 0.95);
-
-            border-bottom:
-                1px solid var(--border);
+            border-bottom: 1px solid #e5eee9;
 
             position: sticky;
 
             top: 0;
 
             z-index: 100;
-
-            backdrop-filter: blur(10px);
         }
 
-
-        /* =====================================================
-           LOGO
-           ===================================================== */
 
         .logo {
 
@@ -173,18 +61,25 @@
 
             align-items: center;
 
-            gap: 11px;
+            gap: 10px;
 
-            text-decoration: none;
+            font-size: 23px;
 
-            color: var(--text);
+            font-weight: bold;
+
+            color: #123d2d;
         }
 
 
-        .logo-icon {
+        .paw {
 
             width: 38px;
+
             height: 38px;
+
+            border-radius: 50%;
+
+            background: #138a5b;
 
             display: flex;
 
@@ -192,53 +87,11 @@
 
             justify-content: center;
 
-            color: var(--green);
+            color: white;
 
-            font-size: 23px;
+            font-size: 20px;
         }
 
-
-        .logo-text {
-
-            display: flex;
-
-            flex-direction: column;
-
-            line-height: 1.1;
-        }
-
-
-        .logo-name {
-
-            font-size: 18px;
-
-            font-weight: 700;
-
-            letter-spacing: -0.3px;
-        }
-
-
-        .logo-name span {
-
-            color: var(--green);
-        }
-
-
-        .logo-tagline {
-
-            margin-top: 3px;
-
-            color: #8a9089;
-
-            font-size: 8px;
-
-            letter-spacing: 0.2px;
-        }
-
-
-        /* =====================================================
-           NAVIGATION
-           ===================================================== */
 
         .nav-links {
 
@@ -246,959 +99,56 @@
 
             align-items: center;
 
-            gap: 34px;
+            gap: 28px;
         }
 
 
         .nav-links a {
 
-            position: relative;
-
-            color: #4f5751;
-
             text-decoration: none;
 
-            font-size: 12px;
+            color: #263d34;
 
-            font-weight: 500;
+            font-size: 15px;
 
-            padding:
-                28px 0;
-
-            transition: 0.2s ease;
+            padding: 25px 0;
         }
 
 
-        .nav-links a:hover {
-
-            color: var(--green-dark);
-        }
-
-
+        .nav-links a:hover,
         .nav-links a.active {
 
-            color: var(--green-dark);
+            color: #078653;
 
-            font-weight: 600;
+            border-bottom: 3px solid #078653;
         }
 
 
-        .nav-links a.active::after {
+        /* ================= PAGE ================= */
 
-            content: "";
-
-            position: absolute;
-
-            left: 0;
-
-            right: 0;
-
-            bottom: 17px;
-
-            height: 2px;
-
-            background:
-                var(--green);
-
-            border-radius: 5px;
-        }
-
-
-        /* =====================================================
-           NAV RIGHT
-           ===================================================== */
-
-        .nav-right {
-
-            display: flex;
-
-            align-items: center;
-
-            gap: 18px;
-        }
-
-
-        .language {
-
-            display: flex;
-
-            align-items: center;
-
-            gap: 6px;
-
-            color: #59625b;
-
-            font-size: 11px;
-
-            font-weight: 500;
-        }
-
-
-        .language-icon {
-
-            font-size: 14px;
-        }
-
-
-        .login-button {
-
-            display: flex;
-
-            align-items: center;
-
-            gap: 7px;
-
-            padding:
-                9px 17px;
-
-            border:
-                1px solid #cfd5ce;
-
-            border-radius: 20px;
-
-            background:
-                transparent;
-
-            color: #354038;
-
-            font-size: 11px;
-
-            font-weight: 600;
-
-            transition: 0.2s ease;
-        }
-
-
-        .login-button:hover {
-
-            background:
-                var(--green-light);
-
-            border-color:
-                #bdcdbf;
-        }
-
-
-        /* =====================================================
-           HERO
-           ===================================================== */
-
-        .hero {
-
-            min-height:
-                calc(100vh - 76px);
-
-            padding:
-                70px 7%
-                85px;
-
-            display: grid;
-
-            grid-template-columns:
-                0.9fr 1.1fr;
-
-            align-items: center;
-
-            gap: 70px;
-
-            background:
-                #f5f2e9;
-        }
-
-
-        /* =====================================================
-           HERO LEFT
-           ===================================================== */
-
-        .hero-left {
-
-            max-width: 590px;
-        }
-
-
-        .small-label {
-
-            display: inline-flex;
-
-            align-items: center;
-
-            gap: 7px;
-
-            margin-bottom: 19px;
-
-            color: var(--green);
-
-            font-size: 10px;
-
-            font-weight: 700;
-
-            letter-spacing: 1px;
-
-            text-transform: uppercase;
-        }
-
-
-        .small-label::before {
-
-            content: "";
-
-            width: 23px;
-
-            height: 1px;
-
-            background:
-                var(--green);
-        }
-
-
-        .hero-title {
-
-            color: #202720;
-
-            font-size:
-                clamp(
-                    43px,
-                    5.1vw,
-                    68px
-                );
-
-            line-height: 1.05;
-
-            letter-spacing: -2.5px;
-
-            font-weight: 700;
-
-            margin-bottom: 22px;
-        }
-
-
-        .hero-title span {
-
-            color: var(--green);
-        }
-
-
-        .hero-description {
-
-            max-width: 520px;
-
-            color: #69716b;
-
-            font-size: 14px;
-
-            line-height: 1.8;
-
-            margin-bottom: 30px;
-        }
-
-
-        /* =====================================================
-           HERO BUTTON
-           ===================================================== */
-
-        .hero-buttons {
-
-            display: flex;
-
-            align-items: center;
-
-            gap: 11px;
-
-            flex-wrap: wrap;
-        }
-
-
-        .primary-button {
-
-            border: none;
-
-            padding:
-                13px 21px;
-
-            border-radius: 24px;
-
-            color: white;
-
-            background:
-                var(--green);
-
-            font-size: 11px;
-
-            font-weight: 600;
-
-            box-shadow:
-                0 7px 17px
-                rgba(63, 107, 85, 0.17);
-
-            transition:
-                0.2s ease;
-        }
-
-
-        .primary-button:hover {
-
-            background:
-                var(--green-dark);
-
-            transform:
-                translateY(-1px);
-        }
-
-
-        .secondary-button {
-
-            padding:
-                12px 19px;
-
-            border:
-                1px solid #cfd6cf;
-
-            border-radius: 24px;
-
-            color: #4f5b53;
-
-            background:
-                transparent;
-
-            font-size: 11px;
-
-            font-weight: 600;
-
-            transition:
-                0.2s ease;
-        }
-
-
-        .secondary-button:hover {
-
-            background:
-                #eceee7;
-
-            border-color:
-                #bfc9c0;
-        }
-
-
-        /* =====================================================
-           TRUST ROW
-           ===================================================== */
-
-        .trust-row {
-
-            display: flex;
-
-            align-items: center;
-
-            gap: 18px;
-
-            margin-top: 28px;
-
-            color: #7c847e;
-
-            font-size: 9px;
-        }
-
-
-        .trust-item {
-
-            display: flex;
-
-            align-items: center;
-
-            gap: 6px;
-        }
-
-
-        .trust-icon {
-
-            width: 23px;
-            height: 23px;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            border-radius: 7px;
-
-            background:
-                #e7eee8;
-
-            color:
-                var(--green);
-
-            font-size: 11px;
-        }
-
-
-        /* =====================================================
-           HERO RIGHT
-           ===================================================== */
-
-        .visual-container {
-
-            position: relative;
-
-            min-height: 530px;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-        }
-
-
-        /* =====================================================
-           IMAGE / VISUAL CARD
-           ===================================================== */
-
-        .dog-card {
-
-            width: min(500px, 100%);
-
-            min-height: 470px;
-
-            position: relative;
-
-            overflow: hidden;
-
-            border-radius: 25px;
-
-            background:
-                #e5e4d8;
-
-            border:
-                1px solid #d9dbcf;
-
-            box-shadow:
-                0 25px 55px
-                rgba(60, 72, 59, 0.13);
-        }
-
-
-        /*
-           Decorative dog illustration area.
-           You can replace this emoji with your own
-           dog image later.
-        */
-
-        .dog-image {
-
-            width: 100%;
-
-            height: 100%;
-
-            min-height: 470px;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            background:
-                linear-gradient(
-                    145deg,
-                    #dfe5d9,
-                    #ebe8db
-                );
-
-            position: relative;
-        }
-
-
-        .dog-image::before {
-
-            content: "";
-
-            position: absolute;
-
-            width: 310px;
-
-            height: 310px;
-
-            border-radius: 50%;
-
-            background:
-                #d2dccd;
-
-            top: 50px;
-
-            left: 50%;
-
-            transform:
-                translateX(-50%);
-        }
-
-
-        .dog-emoji {
-
-            position: relative;
-
-            z-index: 2;
-
-            font-size: 190px;
-
-            filter:
-                drop-shadow(
-                    0 15px 15px
-                    rgba(44, 56, 46, 0.13)
-                );
-        }
-
-
-        /* =====================================================
-           ANALYZING BADGE
-           ===================================================== */
-
-        .analyzing-card {
-
-            position: absolute;
-
-            right: -28px;
-
-            top: 105px;
-
-            width: 185px;
-
-            padding:
-                13px 15px;
-
-            border-radius: 13px;
-
-            background:
-                rgba(255,255,255,0.96);
-
-            border:
-                1px solid #e0e3db;
-
-            box-shadow:
-                0 13px 35px
-                rgba(50,65,53,0.13);
-
-            z-index: 5;
-        }
-
-
-        .analyzing-top {
-
-            display: flex;
-
-            align-items: center;
-
-            gap: 6px;
-
-            margin-bottom: 7px;
-
-            color: var(--green);
-
-            font-size: 8px;
-
-            font-weight: 700;
-        }
-
-
-        .analyzing-dot {
-
-            width: 7px;
-            height: 7px;
-
-            border-radius: 50%;
-
-            background:
-                var(--green);
-        }
-
-
-        .analyzing-title {
-
-            color: #313932;
-
-            font-size: 12px;
-
-            font-weight: 600;
-        }
-
-
-        /* =====================================================
-           DETECTION CARD
-           ===================================================== */
-
-        .detection-card {
-
-            position: absolute;
-
-            left: -25px;
-
-            bottom: 50px;
-
-            width: 190px;
-
-            padding:
-                14px;
-
-            border-radius: 13px;
-
-            background:
-                rgba(255,255,255,0.96);
-
-            border:
-                1px solid #e0e3db;
-
-            box-shadow:
-                0 13px 35px
-                rgba(50,65,53,0.13);
-
-            z-index: 5;
-        }
-
-
-        .detection-header {
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: space-between;
-
-            margin-bottom: 10px;
-        }
-
-
-        .detection-label {
-
-            color: #7b837d;
-
-            font-size: 8px;
-
-            font-weight: 600;
-        }
-
-
-        .check {
-
-            width: 17px;
-            height: 17px;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            border-radius: 50%;
-
-            color: white;
-
-            background:
-                var(--green);
-
-            font-size: 9px;
-        }
-
-
-        .disease-name {
-
-            color: #2c362f;
-
-            font-size: 13px;
-
-            font-weight: 700;
-
-            margin-bottom: 5px;
-        }
-
-
-        .confidence {
-
-            color: var(--green);
-
-            font-size: 9px;
-
-            font-weight: 600;
-        }
-
-
-        /* =====================================================
-           FLOATING DECORATIONS
-           ===================================================== */
-
-        .floating-paw {
-
-            position: absolute;
-
-            color:
-                rgba(63,107,85,0.12);
-
-            font-size: 40px;
-        }
-
-
-        .paw-one {
-
-            top: 35px;
-
-            left: 10px;
-
-            transform:
-                rotate(-15deg);
-        }
-
-
-        .paw-two {
-
-            right: 5px;
-
-            bottom: 25px;
-
-            font-size: 32px;
-
-            transform:
-                rotate(15deg);
-        }
-
-
-        /* =====================================================
-           INFORMATION SECTION
-           ===================================================== */
-
-        .features-section {
-
-            padding:
-                80px 7%;
-
-            background:
-                #faf9f4;
-
-            border-top:
-                1px solid #e2e2d8;
-        }
-
-
-        .section-heading {
-
-            text-align: center;
-
-            max-width: 600px;
-
-            margin:
-                0 auto 42px;
-        }
-
-
-        .section-heading span {
-
-            color: var(--green);
-
-            font-size: 9px;
-
-            font-weight: 700;
-
-            letter-spacing: 1.5px;
-
-            text-transform: uppercase;
-        }
-
-
-        .section-heading h2 {
-
-            margin-top: 10px;
-
-            color: #252c26;
-
-            font-size:
-                clamp(27px, 3vw, 40px);
-
-            letter-spacing: -1px;
-        }
-
-
-        .section-heading p {
-
-            margin-top: 11px;
-
-            color: #788079;
-
-            font-size: 12px;
-
-            line-height: 1.7;
-        }
-
-
-        /* =====================================================
-           FEATURE GRID
-           ===================================================== */
-
-        .feature-grid {
+        .page {
 
             max-width: 1050px;
 
-            margin: auto;
+            margin: 35px auto;
 
-            display: grid;
-
-            grid-template-columns:
-                repeat(4, 1fr);
-
-            gap: 15px;
+            padding: 0 20px;
         }
 
 
-        .feature-card {
+        /* ================= HERO ================= */
 
-            padding:
-                22px 19px;
+        .chat-hero {
 
-            border:
-                1px solid #dedfd5;
+            background: linear-gradient(
+                120deg,
+                #e8f8ef,
+                #f9fffb
+            );
 
-            border-radius: 16px;
+            border-radius: 22px;
 
-            background:
-                #ffffff;
-
-            transition:
-                0.25s ease;
-        }
-
-
-        .feature-card:hover {
-
-            transform:
-                translateY(-3px);
-
-            border-color:
-                #c7d4ca;
-
-            box-shadow:
-                0 12px 30px
-                rgba(49,67,53,0.07);
-        }
-
-
-        .feature-icon {
-
-            width: 43px;
-            height: 43px;
-
-            display: flex;
-
-            align-items: center;
-            justify-content: center;
-
-            border-radius: 12px;
-
-            margin-bottom: 15px;
-
-            color: var(--green);
-
-            background:
-                var(--green-light);
-
-            font-size: 19px;
-        }
-
-
-        .feature-card h3 {
-
-            color: #2a332c;
-
-            font-size: 13px;
-
-            margin-bottom: 7px;
-        }
-
-
-        .feature-card p {
-
-            color: #7a827b;
-
-            font-size: 10px;
-
-            line-height: 1.65;
-        }
-
-
-        /* =====================================================
-           CHATBOT SECTION
-           ===================================================== */
-
-        .chat-section {
-
-            padding:
-                85px 7%;
-
-            background:
-                #f1f0e8;
-        }
-
-
-        .chat-section-wrapper {
-
-            max-width: 850px;
-
-            margin: auto;
-        }
-
-
-        .chat-heading {
-
-            text-align: center;
-
-            margin-bottom: 28px;
-        }
-
-
-        .chat-heading h2 {
-
-            color: #252d27;
-
-            font-size:
-                clamp(27px, 3vw, 38px);
-        }
-
-
-        .chat-heading p {
-
-            color: #788079;
-
-            font-size: 12px;
-
-            margin-top: 8px;
-        }
-
-
-        /* =====================================================
-           CHAT WINDOW
-           ===================================================== */
-
-        .chat-window {
-
-            overflow: hidden;
-
-            border:
-                1px solid #d9ddd5;
-
-            border-radius: 20px;
-
-            background:
-                #fafaf6;
-
-            box-shadow:
-                0 20px 50px
-                rgba(45,59,48,0.10);
-        }
-
-
-        /* =====================================================
-           CHAT HEADER
-           ===================================================== */
-
-        .chat-header {
-
-            height: 66px;
+            padding: 38px;
 
             display: flex;
 
@@ -1206,675 +156,289 @@
 
             justify-content: space-between;
 
-            padding:
-                0 20px;
-
-            background:
-                #ffffff;
-
-            border-bottom:
-                1px solid #e0e2d9;
+            margin-bottom: 25px;
         }
 
 
-        .chat-profile {
+        .chat-hero h1 {
 
-            display: flex;
+            font-size: 38px;
 
-            align-items: center;
+            color: #123d2d;
 
-            gap: 10px;
+            margin-bottom: 12px;
         }
 
 
-        .chat-avatar {
+        .chat-hero p {
 
-            width: 38px;
-            height: 38px;
+            color: #597169;
 
-            display: flex;
+            line-height: 1.7;
 
-            align-items: center;
-            justify-content: center;
+            font-size: 16px;
 
-            border-radius: 11px;
-
-            color: white;
-
-            background:
-                var(--green);
-
-            font-size: 20px;
+            max-width: 650px;
         }
 
 
-        .chat-name {
+        .robot {
 
-            color: #2b342d;
-
-            font-size: 12px;
-
-            font-weight: 700;
+            font-size: 90px;
         }
 
 
-        .chat-status {
+        /* ================= CHAT BOX ================= */
 
-            display: flex;
+        .chat-container {
 
-            align-items: center;
+            background: white;
 
-            gap: 5px;
+            border-radius: 18px;
 
-            color: #8a938b;
+            box-shadow:
+                0 5px 20px rgba(0,0,0,0.05);
 
-            font-size: 8px;
-
-            margin-top: 3px;
+            padding: 25px;
         }
 
 
-        .status-dot {
+        .messages {
 
-            width: 6px;
-            height: 6px;
+            min-height: 380px;
 
-            border-radius: 50%;
-
-            background:
-                #5e9773;
-        }
-
-
-        .chat-actions {
-
-            color: #879088;
-
-            font-size: 14px;
-        }
-
-
-        /* =====================================================
-           CHAT BODY
-           ===================================================== */
-
-        .chat-body {
-
-            min-height: 360px;
-
-            max-height: 420px;
+            max-height: 500px;
 
             overflow-y: auto;
 
-            padding:
-                22px;
-
-            background:
-                #f7f7f2;
+            padding: 10px;
         }
 
+
+        /* ================= MESSAGE ================= */
 
         .message {
 
             display: flex;
 
-            margin-bottom: 18px;
+            margin-bottom: 20px;
+
+            gap: 12px;
         }
 
 
         .message.user {
 
-            justify-content:
-                flex-end;
+            justify-content: flex-end;
         }
 
 
-        .message.bot {
+        .message-avatar {
 
-            justify-content:
-                flex-start;
-        }
+            width: 38px;
 
+            height: 38px;
 
-        .message-bubble {
+            border-radius: 50%;
 
-            max-width: 75%;
-
-            padding:
-                12px 15px;
-
-            font-size: 11px;
-
-            line-height: 1.65;
-        }
-
-
-        .message.bot
-        .message-bubble {
-
-            color: #414a43;
-
-            background:
-                white;
-
-            border:
-                1px solid #e0e2da;
-
-            border-radius:
-                5px 14px 14px 14px;
-        }
-
-
-        .message.user
-        .message-bubble {
-
-            color: white;
-
-            background:
-                var(--green);
-
-            border-radius:
-                14px 5px 14px 14px;
-        }
-
-
-        /* =====================================================
-           QUICK QUESTIONS
-           ===================================================== */
-
-        .quick-questions {
+            background: #e0f5e9;
 
             display: flex;
 
-            gap: 8px;
+            justify-content: center;
+
+            align-items: center;
+
+            flex-shrink: 0;
+        }
+
+
+        .message-content {
+
+            max-width: 70%;
+
+            padding: 14px 17px;
+
+            border-radius: 15px;
+
+            line-height: 1.6;
+
+            font-size: 15px;
+        }
+
+
+        .message.bot .message-content {
+
+            background: #f0f4f2;
+
+            color: #354c43;
+
+            border-top-left-radius: 4px;
+        }
+
+
+        .message.user .message-content {
+
+            background: #dcf5e7;
+
+            color: #174b36;
+
+            border-top-right-radius: 4px;
+        }
+
+
+        /* ================= SUGGESTIONS ================= */
+
+        .suggestions {
+
+            display: flex;
 
             flex-wrap: wrap;
 
-            margin-top: 8px;
+            gap: 10px;
+
+            margin: 20px 0;
         }
 
 
-        .quick-question {
+        .suggestion {
 
-            padding:
-                8px 12px;
+            background: white;
 
-            border:
-                1px solid #d5ddd6;
+            border: 1px solid #9bd5b8;
 
-            border-radius: 18px;
+            color: #13784f;
 
-            color: #59645c;
+            border-radius: 20px;
 
-            background:
-                white;
+            padding: 9px 16px;
 
-            font-size: 9px;
+            cursor: pointer;
 
-            transition:
-                0.2s;
+            font-size: 14px;
         }
 
 
-        .quick-question:hover {
+        .suggestion:hover {
 
-            color:
-                var(--green-dark);
-
-            border-color:
-                #b8cbbd;
-
-            background:
-                #eef3ee;
+            background: #eaf8f0;
         }
 
 
-        /* =====================================================
-           CHAT INPUT
-           ===================================================== */
+        /* ================= INPUT ================= */
 
-        .chat-input-wrapper {
-
-            padding:
-                12px 15px;
-
-            background:
-                white;
-
-            border-top:
-                1px solid #e0e2da;
-        }
-
-
-        .chat-input {
+        .input-area {
 
             display: flex;
 
-            align-items: center;
+            gap: 10px;
 
-            gap: 8px;
+            border-top: 1px solid #e7eeea;
 
-            padding:
-                5px;
-
-            border:
-                1px solid #d7dcd5;
-
-            border-radius: 13px;
-
-            background:
-                #fafbf8;
+            padding-top: 20px;
         }
 
 
-        .chat-input input {
+        .input-area input {
 
             flex: 1;
 
-            min-width: 0;
+            border: 1px solid #d5e3dc;
 
-            border: none;
+            border-radius: 10px;
+
+            padding: 14px;
+
+            font-size: 15px;
 
             outline: none;
-
-            background:
-                transparent;
-
-            color: #313a33;
-
-            padding:
-                9px;
-
-            font-size: 10px;
         }
 
 
-        .chat-input input::placeholder {
+        .input-area input:focus {
 
-            color:
-                #969e97;
+            border-color: #138a5b;
         }
 
 
-        .send-button {
+        .send-btn {
 
-            width: 35px;
-            height: 35px;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
+            width: 55px;
 
             border: none;
 
             border-radius: 10px;
 
+            background: #138a5b;
+
             color: white;
 
-            background:
-                var(--green);
+            font-size: 20px;
 
-            font-size: 17px;
-
-            transition:
-                0.2s;
+            cursor: pointer;
         }
 
 
-        .send-button:hover {
+        .send-btn:hover {
 
-            background:
-                var(--green-dark);
-
-            transform:
-                translateY(-1px);
+            background: #0d704a;
         }
 
 
-        /* =====================================================
-           DISCLAIMER
-           ===================================================== */
+        /* ================= DISCLAIMER ================= */
 
         .disclaimer {
 
-            margin-top: 9px;
-
             text-align: center;
 
-            color: #929891;
+            color: #879790;
 
-            font-size: 8px;
+            font-size: 12px;
+
+            margin-top: 15px;
+
+            line-height: 1.5;
         }
 
 
-        /* =====================================================
-           FOOTER
-           ===================================================== */
-
-        footer {
-
-            padding:
-                25px 7%;
-
-            display: flex;
-
-            justify-content: space-between;
-
-            align-items: center;
-
-            gap: 20px;
-
-            background:
-                #26372d;
-
-            color:
-                #aeb9b1;
-
-            font-size: 9px;
-        }
-
-
-        footer strong {
-
-            color:
-                #e8eee9;
-        }
-
-
-        /* =====================================================
-           RESPONSIVE
-           ===================================================== */
-
-        @media (max-width: 1050px) {
-
-            .nav-links {
-
-                gap: 20px;
-            }
-
-
-            .hero {
-
-                gap: 40px;
-
-                padding-left: 5%;
-                padding-right: 5%;
-            }
-
-
-            .analyzing-card {
-
-                right: -5px;
-            }
-
-
-            .detection-card {
-
-                left: -5px;
-            }
-
-
-            .feature-grid {
-
-                grid-template-columns:
-                    repeat(2, 1fr);
-            }
-
-        }
-
+        /* ================= MOBILE ================= */
 
         @media (max-width: 800px) {
 
             .navbar {
 
-                padding:
-                    0 4%;
+                padding: 0 20px;
             }
-
 
             .nav-links {
 
-                display: none;
+                gap: 12px;
             }
 
-
-            .hero {
-
-                grid-template-columns:
-                    1fr;
-
-                padding:
-                    55px 5%
-                    70px;
-            }
-
-
-            .hero-left {
-
-                text-align: center;
-
-                margin: auto;
-            }
-
-
-            .small-label {
-
-                justify-content: center;
-            }
-
-
-            .hero-description {
-
-                margin-left: auto;
-
-                margin-right: auto;
-            }
-
-
-            .hero-buttons {
-
-                justify-content: center;
-            }
-
-
-            .trust-row {
-
-                justify-content: center;
-            }
-
-
-            .visual-container {
-
-                min-height: 470px;
-            }
-
-
-            .dog-card {
-
-                width:
-                    min(470px, 90%);
-            }
-
-
-            .analyzing-card {
-
-                right: 1%;
-            }
-
-
-            .detection-card {
-
-                left: 1%;
-            }
-
-        }
-
-
-        @media (max-width: 550px) {
-
-            .navbar {
-
-                height: 68px;
-            }
-
-
-            .logo-name {
-
-                font-size: 16px;
-            }
-
-
-            .logo-tagline {
-
-                font-size: 7px;
-            }
-
-
-            .nav-right {
-
-                display: none;
-            }
-
-
-            .hero {
-
-                padding-top:
-                    45px;
-            }
-
-
-            .hero-title {
-
-                font-size: 42px;
-
-                letter-spacing:
-                    -1.8px;
-            }
-
-
-            .hero-description {
+            .nav-links a {
 
                 font-size: 12px;
             }
 
+            .chat-hero {
 
-            .hero-buttons {
-
-                flex-direction: column;
-
-                width: 100%;
+                padding: 25px;
             }
 
+            .chat-hero h1 {
 
-            .primary-button,
-            .secondary-button {
-
-                width: 100%;
+                font-size: 28px;
             }
 
+            .robot {
 
-            .trust-row {
-
-                gap: 9px;
-
-                flex-wrap: wrap;
+                display: none;
             }
 
+            .message-content {
 
-            .visual-container {
-
-                min-height: 400px;
+                max-width: 85%;
             }
-
-
-            .dog-card {
-
-                min-height: 390px;
-            }
-
-
-            .dog-image {
-
-                min-height: 390px;
-            }
-
-
-            .dog-image::before {
-
-                width: 230px;
-
-                height: 230px;
-            }
-
-
-            .dog-emoji {
-
-                font-size: 140px;
-            }
-
-
-            .analyzing-card {
-
-                width: 155px;
-
-                top: 60px;
-
-                right: -2px;
-            }
-
-
-            .detection-card {
-
-                width: 160px;
-
-                bottom: 30px;
-
-                left: -2px;
-            }
-
-
-            .feature-grid {
-
-                grid-template-columns:
-                    1fr;
-            }
-
-
-            .features-section,
-            .chat-section {
-
-                padding:
-                    60px 5%;
-            }
-
-
-            .chat-body {
-
-                min-height: 330px;
-
-                padding: 15px;
-            }
-
-
-            .message-bubble {
-
-                max-width: 88%;
-
-                font-size: 10px;
-            }
-
-
-            footer {
-
-                flex-direction:
-                    column;
-
-                text-align:
-                    center;
-            }
-
         }
 
     </style>
@@ -1885,853 +449,461 @@
 <body>
 
 
-    <!-- =====================================================
-         NAVIGATION
-         ===================================================== -->
+<!-- ================= NAVBAR ================= -->
 
-    <nav class="navbar">
+<nav class="navbar">
 
 
-        <!-- Logo -->
+    <div class="logo">
 
-        <a
-            href="#"
-            class="logo"
-        >
+        <div class="paw">
+            🐾
+        </div>
 
-            <div class="logo-icon">
-                🐾
-            </div>
+        PawCare AI
+
+    </div>
 
 
-            <div class="logo-text">
+    <div class="nav-links">
 
-                <div class="logo-name">
-
-                    PawCare
-                    <span>AI</span>
-
-                </div>
-
-                <div class="logo-tagline">
-                    Healthy Pets. Happier Lives.
-                </div>
-
-            </div>
-
+        <a href="{{ url_for('index') }}">
+            Home
         </a>
 
+        <a href="{{ url_for('detect') }}">
+            Disease Detection
+        </a>
 
-        <!-- Navigation -->
+        <a href="{{ url_for('community') }}" data-i18n="nav.community">
+        Community
+        </a>
 
-        <div class="nav-links">
+        <a href="{{ url_for('chatbot') }}" data-i18n="nav.chatbot">
+        Chat with our AI
+        </a>
 
-            <a
-                href="#home"
-                class="active"
-            >
-                Home
-            </a>
+    </div>
 
-            <a href="#features">
-                Detect Disease
-            </a>
+</nav>
 
-            <a href="#how">
-                How It Works
-            </a>
 
-            <a href="#chat">
-                Contact
-            </a>
+
+<!-- ================= MAIN ================= -->
+
+<div class="page">
+
+
+    <!-- HERO -->
+
+    <section class="chat-hero">
+
+        <div>
+
+            <h1>
+                🤖 AI Dog Care Assistant
+            </h1>
+
+            <p>
+                Ask questions about your dog's health,
+                skin conditions, care and general well-being.
+            </p>
 
         </div>
 
 
-        <!-- Right side -->
+        <div class="robot">
+            🐕
+        </div>
 
-        <div class="nav-right">
+    </section>
 
-            <div class="language">
 
-                <span class="language-icon">
-                    ◉
-                </span>
 
-                Language
+    <!-- CHAT -->
 
-                <span>
-                   ⌄
-                </span>
+    <section class="chat-container">
+
+
+        <div
+            class="messages"
+            id="messages"
+        >
+
+            <!-- DEFAULT AI MESSAGE -->
+
+            <div class="message bot">
+
+                <div class="message-avatar">
+                    🤖
+                </div>
+
+                <div class="message-content">
+
+                    Hello! 👋 I'm the PawCare AI Assistant.
+                    How can I help you with your dog today?
+
+                </div>
 
             </div>
 
+        </div>
+
+
+
+        <!-- SUGGESTIONS -->
+
+        <div class="suggestions">
 
             <button
-                class="login-button"
-                onclick="showLogin()"
+                class="suggestion"
+                onclick="askQuestion(
+                    'What are common causes of itchy skin in dogs?'
+                )"
             >
+                Causes of itchy skin?
+            </button>
 
-                <span>
-                    ↪
-                </span>
 
-                Login
+            <button
+                class="suggestion"
+                onclick="askQuestion(
+                    'How can I take care of my dogs skin?'
+                )"
+            >
+                Skin care tips
+            </button>
 
+
+            <button
+                class="suggestion"
+                onclick="askQuestion(
+                    'How can I prevent skin infections in dogs?'
+                )"
+            >
+                Prevent infections
+            </button>
+
+
+            <button
+                class="suggestion"
+                onclick="askQuestion(
+                    'When should I take my dog to a veterinarian?'
+                )"
+            >
+                When to see a vet?
             </button>
 
         </div>
 
-    </nav>
 
 
-    <!-- =====================================================
-         HERO
-         ===================================================== -->
+        <!-- INPUT -->
 
-    <main id="home">
+        <div class="input-area">
 
-        <section class="hero">
+            <input
+                type="text"
+                id="messageInput"
+                placeholder="Type your question here..."
+                onkeydown="handleKey(event)"
+            >
 
 
-            <!-- =================================================
-                 HERO LEFT
-                 ================================================= -->
-
-            <div class="hero-left">
-
-                <div class="small-label">
-                    AI-POWERED PET CARE
-                </div>
-
-
-                <h1 class="hero-title">
-
-                    Smarter care for
-                    <span>
-                        happier pets.
-                    </span>
-
-                </h1>
-
-
-                <p class="hero-description">
-
-                    PawCare AI helps you understand your
-                    dog's skin health through intelligent
-                    image analysis and helpful veterinary
-                    information — so you can make more
-                    informed care decisions.
-
-                </p>
-
-
-                <div class="hero-buttons">
-
-                    <button
-                        class="primary-button"
-                        onclick="startDetection()"
-                    >
-
-                        🐾
-                        Detect Disease
-
-                    </button>
-
-
-                    <button
-                        class="secondary-button"
-                        onclick="scrollToChat()"
-                    >
-
-                        Talk to AI
-                        →
-
-                    </button>
-
-                </div>
-
-
-                <div class="trust-row">
-
-                    <div class="trust-item">
-
-                        <span class="trust-icon">
-                            ✓
-                        </span>
-
-                        AI-assisted
-
-                    </div>
-
-
-                    <div class="trust-item">
-
-                        <span class="trust-icon">
-                            🩺
-                        </span>
-
-                        Vet information
-
-                    </div>
-
-
-                    <div class="trust-item">
-
-                        <span class="trust-icon">
-                            🔒
-                        </span>
-
-                        Private
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- =================================================
-                 HERO RIGHT
-                 ================================================= -->
-
-            <div class="visual-container">
-
-
-                <span class="floating-paw paw-one">
-                    🐾
-                </span>
-
-
-                <span class="floating-paw paw-two">
-                    🐾
-                </span>
-
-
-                <div class="dog-card">
-
-
-                    <div class="dog-image">
-
-                        <!-- Replace this emoji with your dog image -->
-
-                        <div class="dog-emoji">
-                            🐕
-                        </div>
-
-                    </div>
-
-
-                    <!-- Analyzing Card -->
-
-                    <div class="analyzing-card">
-
-                        <div class="analyzing-top">
-
-                            <span class="analyzing-dot"></span>
-
-                            AI Analysis
-
-                        </div>
-
-
-                        <div class="analyzing-title">
-
-                            Analyzing image...
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- Detection Card -->
-
-                    <div class="detection-card">
-
-                        <div class="detection-header">
-
-                            <span class="detection-label">
-                                DETECTION RESULT
-                            </span>
-
-                            <span class="check">
-                                ✓
-                            </span>
-
-                        </div>
-
-
-                        <div class="disease-name">
-                            Skin Condition
-                        </div>
-
-
-                        <div class="confidence">
-                            Confidence: 94.5%
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- =====================================================
-             FEATURES
-             ===================================================== -->
-
-        <section
-            class="features-section"
-            id="features"
-        >
-
-            <div class="section-heading">
-
-                <span>
-                    OUR FEATURES
-                </span>
-
-                <h2>
-                    Everything you need for better pet care
-                </h2>
-
-                <p>
-                    PawCare AI combines intelligent technology
-                    with useful veterinary information.
-                </p>
-
-            </div>
-
-
-            <div class="feature-grid">
-
-
-                <div class="feature-card">
-
-                    <div class="feature-icon">
-                        🔍
-                    </div>
-
-                    <h3>
-                        Disease Detection
-                    </h3>
-
-                    <p>
-                        Analyze an image of your dog's skin
-                        and receive an AI-assisted prediction.
-                    </p>
-
-                </div>
-
-
-                <div class="feature-card">
-
-                    <div class="feature-icon">
-                        🧬
-                    </div>
-
-                    <h3>
-                        Possible Causes
-                    </h3>
-
-                    <p>
-                        Learn about potential causes and
-                        common signs associated with conditions.
-                    </p>
-
-                </div>
-
-
-                <div class="feature-card">
-
-                    <div class="feature-icon">
-                        ❤️
-                    </div>
-
-                    <h3>
-                        General Care
-                    </h3>
-
-                    <p>
-                        Explore general supportive care and
-                        prevention information.
-                    </p>
-
-                </div>
-
-
-                <div class="feature-card">
-
-                    <div class="feature-icon">
-                        🩺
-                    </div>
-
-                    <h3>
-                        Veterinary Guidance
-                    </h3>
-
-                    <p>
-                        Understand when professional veterinary
-                        evaluation may be appropriate.
-                    </p>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- =====================================================
-             CHATBOT
-             ===================================================== -->
-
-        <section
-            class="chat-section"
-            id="chat"
-        >
-
-            <div class="chat-section-wrapper">
-
-
-                <div class="chat-heading">
-
-                    <h2>
-                        Ask PawCare AI
-                    </h2>
-
-                    <p>
-                        Ask questions about your dog's skin health.
-                    </p>
-
-                </div>
-
-
-                <div class="chat-window">
-
-
-                    <!-- Chat header -->
-
-                    <div class="chat-header">
-
-                        <div class="chat-profile">
-
-                            <div class="chat-avatar">
-                                🐾
-                            </div>
-
-
-                            <div>
-
-                                <div class="chat-name">
-                                    PawCare AI
-                                </div>
-
-
-                                <div class="chat-status">
-
-                                    <span class="status-dot"></span>
-
-                                    Online
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="chat-actions">
-                            •••
-                        </div>
-
-                    </div>
-
-
-                    <!-- Chat body -->
-
-                    <div
-                        class="chat-body"
-                        id="chatBody"
-                    >
-
-
-                        <div class="message bot">
-
-                            <div class="message-bubble">
-
-                                Hello! 👋 I'm PawCare AI.
-
-                                <br><br>
-
-                                I can provide general information
-                                about dog skin conditions, symptoms,
-                                possible causes, and when you may
-                                want to contact a veterinarian.
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="message user">
-
-                            <div class="message-bubble">
-
-                                My dog is scratching a lot.
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="message bot">
-
-                            <div class="message-bubble">
-
-                                Excessive scratching can have
-                                several possible causes, including
-                                allergies, parasites, irritation,
-                                or skin infections.
-
-                                <br><br>
-
-                                You can tell me about other signs
-                                such as redness, hair loss, bumps,
-                                odor, or changes in the skin.
-
-                            </div>
-
-                        </div>
-
-
-                        <!-- Quick Questions -->
-
-                        <div class="quick-questions">
-
-                            <button
-                                class="quick-question"
-                                onclick="quickQuestion('What are common symptoms?')"
-                            >
-                                Common symptoms
-                            </button>
-
-
-                            <button
-                                class="quick-question"
-                                onclick="quickQuestion('What are possible causes?')"
-                            >
-                                Possible causes
-                            </button>
-
-
-                            <button
-                                class="quick-question"
-                                onclick="quickQuestion('When should I see a veterinarian?')"
-                            >
-                                When to see a vet
-                            </button>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- Input -->
-
-                    <div class="chat-input-wrapper">
-
-                        <div class="chat-input">
-
-                            <input
-                                type="text"
-                                id="chatInput"
-                                placeholder="Ask PawCare AI..."
-                                autocomplete="off"
-                            >
-
-
-                            <button
-                                class="send-button"
-                                onclick="sendMessage()"
-                            >
-                                ↑
-                            </button>
-
-                        </div>
-
-
-                        <div class="disclaimer">
-
-                            AI information is educational and
-                            does not replace veterinary diagnosis.
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </section>
-
-    </main>
-
-
-    <!-- =====================================================
-         FOOTER
-         ===================================================== -->
-
-    <footer>
-
-        <div>
-
-            <strong>
-                🐾 PawCare AI
-            </strong>
-
-            &nbsp; • &nbsp;
-
-            Healthy Pets. Happier Lives.
+            <button
+                class="send-btn"
+                onclick="sendMessage()"
+            >
+                ➤
+            </button>
 
         </div>
 
 
-        <div>
+        <div class="disclaimer">
 
-            Educational information only.
-            Consult a qualified veterinarian for medical decisions.
+            PawCare AI provides general information and
+            does not replace professional veterinary diagnosis.
 
         </div>
 
-    </footer>
+    </section>
+
+</div>
 
 
-    <!-- =====================================================
-         JAVASCRIPT
-         ===================================================== -->
 
-    <script>
+<script>
+
+    /* ==========================================
+       ADD MESSAGE TO CHAT
+    ========================================== */
+
+    function addMessage(
+        message,
+        sender
+    ) {
+
+        const messages =
+            document.getElementById("messages");
 
 
-        /* =====================================================
-           START DETECTION
-           ===================================================== */
+        const wrapper =
+            document.createElement("div");
 
-        function startDetection() {
 
-            alert(
-                "Disease detection page can be connected here."
+        wrapper.className =
+            "message " + sender;
+
+
+        const avatar =
+            document.createElement("div");
+
+
+        avatar.className =
+            "message-avatar";
+
+
+        avatar.textContent =
+            sender === "user"
+                ? "👤"
+                : "🤖";
+
+
+        const content =
+            document.createElement("div");
+
+
+        content.className =
+            "message-content";
+
+
+        content.textContent =
+            message;
+
+
+        wrapper.appendChild(avatar);
+
+        wrapper.appendChild(content);
+
+
+        messages.appendChild(wrapper);
+
+
+        messages.scrollTop =
+            messages.scrollHeight;
+    }
+
+
+
+    /* ==========================================
+       SEND MESSAGE
+    ========================================== */
+
+    async function sendMessage() {
+
+        const input =
+            document.getElementById(
+                "messageInput"
             );
 
+
+        const message =
+            input.value.trim();
+
+
+        if (!message) {
+            return;
         }
 
 
-        /* =====================================================
-           SCROLL TO CHAT
-           ===================================================== */
+        /* USER MESSAGE */
 
-        function scrollToChat() {
-
-            document
-                .getElementById("chat")
-                .scrollIntoView({
-                    behavior: "smooth"
-                });
+        addMessage(
+            message,
+            "user"
+        );
 
 
-            setTimeout(
-                function () {
+        input.value = "";
 
-                    document
-                        .getElementById("chatInput")
-                        .focus();
 
-                },
-                500
+        /* THINKING MESSAGE */
+
+        const messages =
+            document.getElementById(
+                "messages"
             );
 
-        }
+
+        const loading =
+            document.createElement("div");
 
 
-        /* =====================================================
-           LOGIN
-           ===================================================== */
-
-        function showLogin() {
-
-            alert(
-                "Login page can be connected here."
-            );
-
-        }
+        loading.className =
+            "message bot";
 
 
-        /* =====================================================
-           QUICK QUESTION
-           ===================================================== */
+        loading.id =
+            "loadingMessage";
 
-        function quickQuestion(question) {
 
-            const input =
-                document.getElementById(
-                    "chatInput"
+        loading.innerHTML = `
+
+            <div class="message-avatar">
+                🤖
+            </div>
+
+            <div class="message-content">
+                Thinking...
+            </div>
+
+        `;
+
+
+        messages.appendChild(loading);
+
+
+        messages.scrollTop =
+            messages.scrollHeight;
+
+
+        try {
+
+            const response =
+                await fetch(
+                    "/api/chat",
+                    {
+
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body: JSON.stringify({
+                            message: message
+                        })
+
+                    }
                 );
 
-            input.value = question;
 
-            input.focus();
-
-        }
+            const data =
+                await response.json();
 
 
-        /* =====================================================
-           SEND MESSAGE
-           ===================================================== */
+            /* REMOVE THINKING */
 
-        function sendMessage() {
-
-            const input =
+            const loadingMessage =
                 document.getElementById(
-                    "chatInput"
+                    "loadingMessage"
                 );
 
-            const chatBody =
-                document.getElementById(
-                    "chatBody"
-                );
 
-            const message =
-                input.value.trim();
+            if (loadingMessage) {
 
-
-            if (!message) {
-
-                return;
+                loadingMessage.remove();
 
             }
 
 
-            /* ================================================
-               USER MESSAGE
-               ================================================ */
+            /* AI RESPONSE */
 
-            const userMessage =
-                document.createElement(
-                    "div"
+            if (data.reply) {
+
+                addMessage(
+                    data.reply,
+                    "bot"
                 );
 
-            userMessage.className =
-                "message user";
+            }
 
+            else {
 
-            const userBubble =
-                document.createElement(
-                    "div"
+                addMessage(
+                    "Sorry, I could not generate a response.",
+                    "bot"
                 );
 
-            userBubble.className =
-                "message-bubble";
+            }
 
-            userBubble.textContent =
-                message;
+        }
 
+        catch (error) {
 
-            userMessage.appendChild(
-                userBubble
-            );
+            console.error(error);
 
 
-            chatBody.appendChild(
-                userMessage
-            );
+            const loadingMessage =
+                document.getElementById(
+                    "loadingMessage"
+                );
 
 
-            input.value = "";
+            if (loadingMessage) {
+
+                loadingMessage.remove();
+
+            }
 
 
-            chatBody.scrollTop =
-                chatBody.scrollHeight;
-
-
-            /* ================================================
-               DEMO RESPONSE
-               ================================================ */
-
-            setTimeout(
-                function () {
-
-                    const botMessage =
-                        document.createElement(
-                            "div"
-                        );
-
-                    botMessage.className =
-                        "message bot";
-
-
-                    const botBubble =
-                        document.createElement(
-                            "div"
-                        );
-
-                    botBubble.className =
-                        "message-bubble";
-
-
-                    botBubble.textContent =
-                        "Thanks for your question. I can provide general information about dog skin conditions, but an AI response should not be considered a confirmed veterinary diagnosis. For your real project, connect this chat to your Flask AI backend.";
-
-
-                    botMessage.appendChild(
-                        botBubble
-                    );
-
-
-                    chatBody.appendChild(
-                        botMessage
-                    );
-
-
-                    chatBody.scrollTop =
-                        chatBody.scrollHeight;
-
-                },
-                700
+            addMessage(
+                "Unable to connect to the AI assistant. Please try again.",
+                "bot"
             );
 
         }
 
+    }
 
-        /* =====================================================
-           ENTER KEY
-           ===================================================== */
 
-        document
-            .getElementById("chatInput")
-            .addEventListener(
-                "keydown",
-                function(event) {
 
-                    if (
-                        event.key === "Enter"
-                    ) {
+    /* ==========================================
+       SUGGESTED QUESTION
+    ========================================== */
 
-                        event.preventDefault();
+    function askQuestion(question) {
 
-                        sendMessage();
-
-                    }
-
-                }
+        const input =
+            document.getElementById(
+                "messageInput"
             );
 
 
-    </script>
+        input.value = question;
+
+
+        sendMessage();
+
+    }
+
+
+
+    /* ==========================================
+       ENTER KEY
+    ========================================== */
+
+    function handleKey(event) {
+
+        if (event.key === "Enter") {
+
+            event.preventDefault();
+
+            sendMessage();
+
+        }
+
+    }
+    
+
+src="{{ url_for('static', filename='js/translations.js') }}"
+src="{{ url_for('static', filename='js/chatbot.js') }}"
+document.addEventListener("DOMContentLoaded", function () {
+        initLanguageSelector();
+    });
+</script>
 
 
 </body>

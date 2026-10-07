@@ -25,6 +25,8 @@ const PAWCARE_TRANSLATIONS = {
         "nav.detect_now": "Detect Now",
         "nav.get_started": "Get Started",
         "nav.language": "Language",
+        "nav.community": "Community",
+        "nav.chatbot": "Chat with our AI",
 
         // Hero Section
         "hero.badge": "AI Powered • Faster Detection • Healthier Pets",
@@ -48,7 +50,25 @@ const PAWCARE_TRANSLATIONS = {
         "features.card3_desc": "Smart gatekeeper ensures only legitimate dog photographs and skin close-ups are evaluated.",
         "features.card4_title": "PDF Health Reports",
         "features.card4_desc": "Downloadable clinical screening summaries ready to share with your licensed veterinary doctor.",
-
+        // Community
+        "community.title": "PawCare Community",
+        "community.subtitle": "Share your dog's skin health concerns and help other pet owners.",
+        "community.create_post": "Create Post",
+        "community.disease_name": "Disease Name",
+        "community.symptoms": "Symptoms",
+        "community.suggestion": "Suggestion",
+        "community.publish": "Publish",
+        "community.reply": "Reply",
+        "community.submit": "Submit",
+        "community.no_posts": "No community posts yet.",
+        "community.write_response": "Write your response...",
+        // Chatbot
+        "chatbot.title": "PawCare AI",
+        "chatbot.subtitle": "Dog Skin Health Assistant",
+        "chatbot.placeholder": "Ask about your dog's skin health...",
+        "chatbot.send": "Send",
+        "chatbot.clear": "Clear Chat",
+        "chatbot.welcome": "Hello! I am PawCare AI. I can help you with dog skin health, symptoms, causes, suggestions and prevention.",
         // How It Works
         "steps.badge": "Easy 4-Step Process",
         "steps.title": "How PawCare AI Works",
@@ -188,6 +208,8 @@ const PAWCARE_TRANSLATIONS = {
         "nav.detect_now": "ఇప్పుడే పరీక్షించండి",
         "nav.get_started": "ప్రారంభించండి",
         "nav.language": "భాష (Language)",
+        "nav.community": "కమ్యూనిటీ",
+        "nav.chatbot": "మా AI తో చాట్ చేయండి",
 
         // హీరో విభాగం (Hero Section)
         "hero.badge": "AI ఆధారిత • వేగవంతమైన గుర్తింపు • ఆరోగ్యకరమైన పెంపుడు జంతువులు",
@@ -211,8 +233,27 @@ const PAWCARE_TRANSLATIONS = {
         "features.card3_desc": "అప్‌లోడ్ చేసిన చిత్రం నిజంగా కుక్క లేదా చర్మానికి సంబంధించిందా కాదా అని స్వయంచాలకంగా పరీక్షిస్తుంది.",
         "features.card4_title": "PDF హెల్త్ రిపోర్టులు",
         "features.card4_desc": "మీ పశువైద్యుడితో పంచుకోవడానికి సమగ్రమైన డిజిటల్ రిపోర్టును డౌన్‌లోడ్ చేసుకోండి.",
-
-        // ఇది ఎలా పనిచేస్తుంది (How It Works)
+        // కమ్యూనిటీ
+        // కమ్యూనిటీ
+        "community.title": "పావ్‌కేర్ కమ్యూనిటీ",
+        "community.subtitle": "మీ కుక్క చర్మ ఆరోగ్య సమస్యలను పంచుకోండి మరియు ఇతర పెంపుడు జంతువుల యజమానులకు సహాయం చేయండి.",
+        "community.create_post": "పోస్ట్ సృష్టించండి",
+        "community.disease_name": "వ్యాధి పేరు",
+        "community.symptoms": "లక్షణాలు",
+        "community.suggestion": "సూచన",
+        "community.publish": "ప్రచురించండి",
+        "community.reply": "స్పందించండి",
+        "community.submit": "సమర్పించండి",
+        "community.no_posts": "ఇంకా కమ్ยూనిటీ పోస్ટ ులు లేవు.",
+        "community.write_response": "మీ స్పందనను రాయండి...",
+        // చాట్‌బాట్
+        "chatbot.title": "పావ్‌కేర్ AI",
+        "chatbot.subtitle": "కుక్కల చర్మ ఆరోగ్య సహాయకుడు",
+        "chatbot.placeholder": "మీ కుక్క చర్మ ఆరోగ్యం గురించి అడగండి...",
+        "chatbot.send": "పంపండి",
+        "chatbot.clear": "చాట్‌ను క్లియర్ చేయండి",
+        "chatbot.welcome": "హలో! నేను పావ్‌కేర్ AI. కుక్కల చర్మ ఆరోగ్యం, లక్షణాలు, కారణాలు, సూచనలు మరిયు నివாரண ஗ುರಿಂಚಿ ಸಹಾಯಂ ಚೆಯಗಲನು.",      
+        // ఇదಿ ಎಲಾ ಪನಿಚೇಸ್ತುಂದಿ (How It Works)
         "steps.badge": "సులభమైన 4 దశలు",
         "steps.title": "పాకేర్ AI ఎలా పనిచేస్తుంది",
         "steps.step1_title": "ఫోటో అప్‌లోడ్ చేయండి",
@@ -351,6 +392,8 @@ const PAWCARE_TRANSLATIONS = {
         "nav.detect_now": "अभी जांचें",
         "nav.get_started": "शुरू करें",
         "nav.language": "भाषा (Language)",
+        "nav.community": "समुदाय",
+        "nav.chatbot": "हमारे AI से चैट करें",
 
         // मुख्य अनुभाग (Hero Section)
         "hero.badge": "AI संचालित • त्वरित पहचान • स्वस्थ पालतू जानवर",
@@ -374,7 +417,25 @@ const PAWCARE_TRANSLATIONS = {
         "features.card3_desc": "स्मार्ट गेटकीपर सुनिश्चित करता है कि केवल वैध कुत्तों की तस्वीरें ही जांची जाएं।",
         "features.card4_title": "PDF स्वास्थ्य रिपोर्ट",
         "features.card4_desc": "अपने पशु चिकित्सक (वेटनरी डॉक्टर) को दिखाने के लिए डिजिटल रिपोर्ट डाउनलोड करें।",
-
+        // समुदाय
+        "community.title": "पॉकेयर समुदाय",
+        "community.subtitle": "अपने कुत्ते की त्वचा संबंधी समस्याएं साझा करें और अन्य पालतू जानवरों के मालिकों की मदद करें।",
+        "community.create_post": "पोस्ट बनाएं",
+        "community.disease_name": "बीमारी का नाम",
+        "community.symptoms": "लक्षण",
+        "community.suggestion": "सुझाव",
+        "community.publish": "प्रकाशित करें",
+        "community.reply": "जवाब दें",
+        "community.submit": "सबमिट करें",
+        "community.no_posts": "अभी तक कोई कम्युनिटी पोस्ट नहीं है।",
+        "community.write_response": "अपना जवाब लिखें...",
+        // चैटबॉट
+        "chatbot.title": "पॉकेयर AI",
+        "chatbot.subtitle": "कुत्तों की त्वचा स्वास्थ्य सहायक",
+        "chatbot.placeholder": "अपने कुत्ते की त्वचा के स्वास्थ्य के बारे में पूछें...",
+        "chatbot.send": "भेजें",
+        "chatbot.clear": "चैट साफ़ करें",
+        "chatbot.welcome": "नमस्ते! मैं पॉकेयर AI हूँ। मैं कुत्तों की त्वचा के स्वास्थ्य, लक्षण, कारण, सुझाव और रोकथाम के बारे में जानकारी दे सकता हूँ।",
         // कार्यप्रणाली (How It Works)
         "steps.badge": "आसान 4 चरण",
         "steps.title": "पॉकेयर AI कैसे काम करता है",
